@@ -1,0 +1,43 @@
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# HCL files
+*.terraform.lock.hcl
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Ignore override files as they are usually used to override resources locally and so
+# are not checked in
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
+*tfplan*
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
+
+# Local configuration
+*.conf
+
+# Lab variable files
+lab.tfvars
+
+# Certificates and private keys
+*.pfx
+*.crt
+*.cer
+*.key
+*.pem
+
+# VSCODE
+**/.vscode/*

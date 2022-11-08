@@ -1,0 +1,30 @@
+parameters:
+  - name: Location
+  - name: Section
+  - name: Environment
+  - name: preTerraformTask
+    type: object
+    default: []
+
+steps:
+- ${{ parameters.preTerraformTask }}
+- bash: |
+    terraform plan \
+      -var-file="../deployments/${{ parameters.Location }}/${{ parameters.Environment }}-${{ parameters.Section }}.tfvars" \
+      -out ${{ parameters.Environment }}-${{ parameters.Section }}.tfplan
+  displayName: Terraform Plan
+  workingDirectory: $(Build.SourcesDirectory)/terraform-${{ parameters.Section }}
+  continueOnError: false
+  env:
+    ARM_SUBSCRIPTION_ID: $(arm-subscription-id)
+    ARM_CLIENT_ID:       $(arm-client-id)
+    ARM_CLIENT_SECRET:   $(arm-client-secret)
+    ARM_TENANT_ID:       $(arm-tenant-id)
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: $(Build.SourcesDirectory)/terraform-${{ parameters.Section }}
+    Contents: ${{ parameters.Environment }}-${{ parameters.Section }}.tfplan
+    TargetFolder: $(Build.ArtifactStagingDirectory)
+  displayName: CreatePipelineArtifact
+- publish: $(Build.ArtifactStagingDirectory)
+  artifact: terraform_plan_${{ parameters.Environment }}_${{ parameters.Section }}

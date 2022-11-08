@@ -1,0 +1,60 @@
+parameters:
+- name: Environment
+- name: Location
+- name: Section
+- name: Email
+- name: preTerraformTask
+  type: object
+  default: []
+
+jobs:
+- job: Plan_${{ parameters.Section }}
+  displayName: 'Terraform Plan'
+  steps:
+    - template: terraform-env-init.yml
+      parameters:
+        Location: ${{ parameters.Location }}
+        Section: ${{ parameters.Section }}
+    - template: terraform-env-plan.yml
+      parameters:
+        Location: ${{ parameters.Location }}
+        Section: ${{ parameters.Section }}
+        Environment: ${{ parameters.Environment }}
+        preTerraformTask: ${{ parameters.preTerraformTask }}
+- job: Manual_Validation_${{ parameters.Environment }}
+  displayName: Manual Validation
+  dependsOn: Plan_${{ parameters.Section }}
+  pool: server
+  steps:
+    - task: ManualValidation@0
+      timeoutInMinutes: 1440
+      inputs:
+        notifyUsers: |
+          ${{ parameters.Email }}
+        instructions: "Please validate the plan"
+- job: Apply_${{ parameters.Section }}
+  displayName: Terraform Apply
+  dependsOn: Manual_Validation_${{ parameters.Environment }}
+  steps:
+    - template: terraform-env-init.yml
+      parameters:
+        Location: ${{ parameters.Location }}
+        Section: ${{ parameters.Section }}
+    - task: DownloadBuildArtifacts@1
+      inputs:
+        buildType: current
+        downloadType: single
+        itemPattern: ${{ parameters.Environment }}-${{ parameters.Section }}.tfplan
+        artifactName: terraform_plan_${{ parameters.Environment }}_${{ parameters.Section }}
+        downloadPath: $(Build.SourcesDirectory)/terraform-${{ parameters.Section }}
+    - bash: |
+        terraform apply -auto-approve ${{ parameters.Environment }}-${{ parameters.Section }}.tfplan
+      displayName: Terraform Apply
+      workingDirectory: $(Build.SourcesDirectory)/terraform-${{ parameters.Section }}
+      env:
+        ARM_SUBSCRIPTION_ID: $(arm-subscription-id)
+        ARM_CLIENT_ID:       $(arm-client-id)
+        ARM_CLIENT_SECRET:   $(arm-client-secret)
+        ARM_TENANT_ID:       $(arm-tenant-id)
+
+          

@@ -1,0 +1,23 @@
+parameters:
+- name: Location
+- name: Section
+
+jobs:
+- job: Docker_Build
+  displayName: 'Docker Build'
+  steps:
+    - template: terraform-env-init.yml
+      parameters:
+        Location: ${{ parameters.Location }}
+        Section: ${{ parameters.Section }}
+    - bash: |
+        export ACR_NAME=$(cd ../../terraform-${{ parameters.Section }} && terraform output --raw acr_name)
+        az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
+        az acr build --subscription $ARM_SUBSCRIPTION_ID --registry $ACR_NAME -t linuxagent:$(Build.BuildNumber) -t linuxagent:latest --timeout 7200 .
+      displayName: 'Build Image'
+      workingDirectory: $(Build.SourcesDirectory)/dockeragent/linux
+      env:
+        ARM_SUBSCRIPTION_ID: $(arm-subscription-id)
+        ARM_CLIENT_ID:       $(arm-client-id)
+        ARM_CLIENT_SECRET:   $(arm-client-secret)
+        ARM_TENANT_ID:       $(arm-tenant-id)

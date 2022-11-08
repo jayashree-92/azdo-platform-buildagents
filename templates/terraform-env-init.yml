@@ -1,0 +1,30 @@
+parameters:
+  - name: Location
+  - name: Section
+
+steps:
+- task: InstallSSHKey@0
+  inputs:
+    knownHostsEntry: "$(git_ssh_known_hosts)"
+    sshPublicKey: "$(sshPublicKey)"
+    sshKeySecureFile: "terraform_rsa"
+- bash: |
+    terraform version
+    terraform init \
+      -backend-config="storage_account_name=$TF_STATE_BLOB_ACCOUNT_NAME" \
+      -backend-config="container_name=$TF_STATE_BLOB_CONTAINER_NAME" \
+      -backend-config="key=$TF_STATE_BLOB_FILE" \
+      -backend-config="access_key=$TF_STATE_BLOB_ACCESS_KEY"
+  displayName: Terraform Init
+  workingDirectory: $(Build.SourcesDirectory)/terraform-${{ parameters.Section }}
+  continueOnError: false
+  env:
+    TF_STATE_BLOB_ACCOUNT_NAME: $(tf-state-blob-account)
+    TF_STATE_BLOB_CONTAINER_NAME: $(tf-state-blob-container)
+    TF_STATE_BLOB_FILE: $(tf-state-blob-file-${{ parameters.Section }}-${{ parameters.Location }})
+    TF_STATE_BLOB_ACCESS_KEY: $(tf-state-blob-access-key)
+- bash: |
+    terraform validate
+  displayName: Terraform Validate
+  workingDirectory: $(Build.SourcesDirectory)/terraform-${{ parameters.Section }}
+  continueOnError: false
