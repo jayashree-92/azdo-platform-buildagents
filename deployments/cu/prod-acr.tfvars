@@ -8,5 +8,5 @@ function_name = "dvp"
 purpose_name  = "ado"
 
 acr = {
-  sku  = "Basic"
+  sku = "Basic"
 }

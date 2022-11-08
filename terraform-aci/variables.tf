@@ -1,6 +1,6 @@
 variable "linux_container_config" {
   description = "Linux Container Group Configuration"
-  type = map(any)
+  type        = map(any)
 }
 
 variable "virtual_network" {
