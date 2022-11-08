@@ -2,7 +2,7 @@
 # ACR from module
 #---------------------------------------------------------
 module "acr" {
-  source = "git::ssh://git@ssh.dev.azure.com/v3/Innocap/Terraform-Modules/terraform-azurerm-container-registry//?ref=v1.0.0"
+  source = "git::ssh://git@ssh.dev.azure.com/v3/Innocap/Terraform-Modules/terraform-azurerm-container-registry/module//?ref=v1.0.0"
 
   function_name       = var.function_name
   purpose_name        = var.purpose_name

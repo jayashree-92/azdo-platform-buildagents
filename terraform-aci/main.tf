@@ -12,7 +12,7 @@ resource "random_string" "unique_4" {
 # ACI from module
 #---------------------------------------------------------
 module "aci-linux" {
-  source = "git::ssh://git@ssh.dev.azure.com/v3/Innocap/Terraform-Modules/terraform-azurerm-container-group//?ref=v1.0.0"
+  source = "git::ssh://git@ssh.dev.azure.com/v3/Innocap/Terraform-Modules/terraform-azurerm-container-group/module//?ref=v1.0.0"
   count  = local.default_linux_container_config.azdo_number_of_agents
 
   function_name       = var.function_name
