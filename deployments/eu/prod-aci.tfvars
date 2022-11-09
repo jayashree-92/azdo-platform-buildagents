@@ -33,7 +33,7 @@ linux_container_config = {
     azdo_url              = "#{AZP_URL}#"
     azdo_pat_token        = "#{AZP_TOKEN}#"
     azdo_agent_pool_name  = "#{AZP_POOL_EU}#"
-    azdo_number_of_agents = #{AZP_NUMBER_OF_LINUX_AGENTS_CU}#
+    azdo_number_of_agents = #{AZP_NUMBER_OF_LINUX_AGENTS_EU}#
   }
 }
 
