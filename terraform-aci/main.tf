@@ -51,4 +51,7 @@ module "aci-linux" {
       }
     }
   ]
+  depends_on = [
+    module.rg-dockeragents
+  ]
 }
