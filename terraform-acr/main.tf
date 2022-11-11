@@ -12,4 +12,8 @@ module "acr" {
   environment_code    = var.environment_code
   sku                 = var.acr.sku
   admin_enabled       = true
+
+  depends_on = [
+    module.rg-dockeragents
+  ]
 }
