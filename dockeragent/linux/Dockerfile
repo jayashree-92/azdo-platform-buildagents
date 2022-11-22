@@ -94,6 +94,12 @@ RUN \
 RUN pip --no-input install checkov 
 
 # ---------------------------------------------
+# AWX CLI for Ansible (Latest)
+# ---------------------------------------------
+
+RUN pip --no-input install awxkit 
+
+# ---------------------------------------------
 # Docker Configuration
 # ---------------------------------------------
 ENV TARGETARCH=linux-x64
