@@ -96,8 +96,12 @@ RUN pip --no-input install checkov
 # ---------------------------------------------
 # AWX CLI for Ansible (Latest)
 # ---------------------------------------------
-
 RUN pip --no-input install awxkit 
+
+# ---------------------------------------------
+# Active Directory Library for Python
+# ---------------------------------------------
+RUN pip --no-input install ms_active_directory
 
 # ---------------------------------------------
 # Docker Configuration
