@@ -16,6 +16,10 @@ virtual_network = {
 linux_container_config = {
   default = {
     ip_address_type = "Private"
+    dns_config = {
+      search_domains = ["innocap.com"]
+      nameservers    = ["10.60.0.132"]
+    }
     containers = {
       default = {
         name   = "linuxagent"

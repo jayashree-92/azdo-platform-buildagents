@@ -12,7 +12,7 @@ resource "random_string" "unique_4" {
 # ACI from module
 #---------------------------------------------------------
 module "aci-linux" {
-  source = "git::ssh://git@ssh.dev.azure.com/v3/Innocap/Terraform-Modules/terraform-azurerm-container-group//module//?ref=v1.0.0"
+  source = "git::ssh://git@ssh.dev.azure.com/v3/Innocap/Terraform-Modules/terraform-azurerm-container-group//module//?ref=v2.0.1"
   count  = local.default_linux_container_config.azdo_number_of_agents
 
   function_name       = var.function_name
@@ -24,6 +24,7 @@ module "aci-linux" {
   ip_address_type     = local.default_linux_container_config.ip_address_type
   os_type             = "Linux"
   subnet_ids          = [data.azurerm_subnet.snet.id]
+  dns_config          = local.default_linux_container_config.dns_config
 
   image_registry_credential_username = data.azurerm_container_registry.acr.admin_username
   image_registry_credential_password = data.azurerm_container_registry.acr.admin_password
