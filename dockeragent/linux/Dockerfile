@@ -29,7 +29,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
     unzip \
     openssh-client \
     python \
-    pip
+    pip \
+    vim \
+    dnsutils
 
 # ---------------------------------------------
 # Install Azure CLI (Latest)
