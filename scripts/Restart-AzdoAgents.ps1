@@ -46,6 +46,7 @@ try {
     Write-Host "Login to Azure..."
     az login --service-principal -u $appId -p $secretId --tenant $tenantId
     Write-Host "Login to Azure DevOps..."
+    Write-Host "Using $azdoUrl"
     az devops configure --defaults organization=$azdoUrl
     
     # --------------------------------------------------------------
@@ -57,7 +58,7 @@ try {
         "13" = "eastus2"
         "14" = "centralindia"
     }
-    
+
     $poolIds.keys | ForEach-Object {
     
         $list = (az pipelines agent list --include-assigned-request --pool-id $_ --query "[].assignedRequest")
