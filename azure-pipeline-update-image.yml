@@ -5,6 +5,13 @@ variables:
 pool:
   vmImage: ubuntu-latest
 
+schedules:
+- cron: "0 1 * * 6"
+  displayName: Weekly Saturday
+  branches:
+    include:
+    - main
+
 trigger: none
 pr: none
 
