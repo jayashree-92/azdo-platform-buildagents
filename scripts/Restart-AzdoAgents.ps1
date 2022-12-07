@@ -43,16 +43,18 @@ try {
     # Azure Authentication
     # ----------------------------------------------
 
-    Write-Host "Login to Azure..."
+    Write-Host "Login to Azure..." -ForegroundColor Green
     az login --service-principal -u $appId -p $secretId --tenant $tenantId
-    Write-Host "Login to Azure DevOps..."
-    Write-Host "Using $azdoUrl"
+    Write-Host "Login to Azure DevOps..." -ForegroundColor Green
+    Write-Host "Using $azdoUrl" -ForegroundColor Green
     az devops configure --defaults organization=$azdoUrl
     
     # --------------------------------------------------------------
     # Get Agent Status and restart containers when no jobs running
     # --------------------------------------------------------------
     
+    Write-Host "Starting container restart..." -ForegroundColor Green
+
     $poolIds = @{
         "12" = "centralus"
         "13" = "eastus2"
