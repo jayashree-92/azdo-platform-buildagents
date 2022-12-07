@@ -36,44 +36,46 @@ param (
 
 $env:AZURE_DEVOPS_EXT_PAT = $azdoToken
 
-# ----------------------------------------------
-# Azure Authentication
-# ----------------------------------------------
+
 
 try {
+    # ----------------------------------------------
+    # Azure Authentication
+    # ----------------------------------------------
+
     Write-Host "Login to Azure..."
     az login --service-principal -u $appId -p $secretId --tenant $tenantId
     Write-Host "Login to Azure DevOps..."
     az devops configure --defaults organization=$azdoUrl
+    
+    # --------------------------------------------------------------
+    # Get Agent Status and restart containers when no jobs running
+    # --------------------------------------------------------------
+    
+    $poolIds = @{
+        "12" = "centralus"
+        "13" = "eastus2"
+        "14" = "centralindia"
+    }
+    
+    $poolIds.keys | ForEach-Object {
+    
+        $list = (az pipelines agent list --include-assigned-request --pool-id $_ --query "[].assignedRequest")
+    
+        while ($list -ne "[]") {
+            Write-Host "The pool in $($poolIds[$_]) still running jobs, retrying in 10 seconds..."
+            Start-Sleep 10
+            $list = (az pipelines agent list --include-assigned-request --pool-id $_ --query "[].assignedRequest")
+        }
+    
+        $aciList = (az container list --query "[?location == '$($poolIds[$_])'].name" --output tsv)
+    
+        $aciList | ForEach-Object {
+            $rg = (az container list --query "[?name == '$_'].resourceGroup" --output tsv)
+            az container restart -n $_ -g $rg --no-wait
+        }
+    }
 }
 catch {
     Write-Warning "Azure Authentication Failed"
-}
-
-$poolIds = @{
-    "12" = "centralus"
-    "13" = "eastus2"
-    "14" = "centralindia"
-}
-
-# --------------------------------------------------------------
-# Get Agent Status and restart containers when no jobs running
-# --------------------------------------------------------------
-
-$poolIds.keys | ForEach-Object {
-
-    $list = (az pipelines agent list --include-assigned-request --pool-id $_ --query "[].assignedRequest")
-
-    while ($list -ne "[]") {
-        Write-Host "The pool in $($poolIds[$_]) still running jobs, retrying in 10 seconds..."
-        Start-Sleep 10
-        $list = (az pipelines agent list --include-assigned-request --pool-id $_ --query "[].assignedRequest")
-    }
-
-    $aciList = (az container list --query "[?location == '$($poolIds[$_])'].name" --output tsv)
-
-    $aciList | ForEach-Object {
-        $rg = (az container list --query "[?name == '$_'].resourceGroup" --output tsv)
-        az container restart -n $_ -g $rg --no-wait
-    }
 }
