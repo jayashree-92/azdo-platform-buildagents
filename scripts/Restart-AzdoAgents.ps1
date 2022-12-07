@@ -27,8 +27,14 @@ param (
 
     [Parameter()]
     [string]
-    $azdoUrl
+    $azdoUrl,
+
+    [Parameter()]
+    [string]
+    $azdoToken
 )
+
+$env:AZURE_DEVOPS_EXT_PAT = $azdoToken
 
 # ----------------------------------------------
 # Azure Authentication

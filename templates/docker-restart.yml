@@ -3,7 +3,7 @@ jobs:
     displayName: "Docker Restart"
     steps:
       - bash: |
-          pwsh ./Restart-AzdoAgents.ps1 -appId $ARM_CLIENT_ID -secretId $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID -azdoUrl $AZURE_DEVOPS_URL
+          pwsh ./Restart-AzdoAgents.ps1 -appId $ARM_CLIENT_ID -secretId $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID -azdoUrl $AZURE_DEVOPS_URL -azdoToken $AZURE_DEVOPS_EXT_PAT
         displayName: "Restart ACI Containers"
         workingDirectory: $(Build.SourcesDirectory)/scripts
         env:
