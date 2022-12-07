@@ -45,7 +45,6 @@ $env:AZURE_DEVOPS_EXT_PAT = $azdoToken
 # ----------------------------------------------
 
 try {
-    Write-Host "##[group] Azure Authentication"
     Write-Host "##[section] Login to Azure Portal..."
     az login --service-principal -u $appId -p $secretId --tenant $tenantId
     az account set -s $subscriptionId
@@ -61,8 +60,6 @@ catch {
 # Get Agent Status and restart containers when no jobs running
 # --------------------------------------------------------------
     
-Write-Host "##[group] Starting container restart..."
-
 $poolIds = @{
     "12" = "centralus"
     "13" = "eastus2"
@@ -83,6 +80,8 @@ $poolIds.keys | ForEach-Object {
     
     $aciList | ForEach-Object {
         $rg = (az container list --query "[?name == '$_'].resourceGroup" --output tsv)
+        $location = (az container list --query "[?name == '$_'].location" --output tsv)
+        Write-Host "##[section] Starting container restart in $location"
         az container restart -n $_ -g $rg --no-wait
     }
 }
