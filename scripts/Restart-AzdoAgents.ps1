@@ -70,7 +70,7 @@ try {
         $list = (az pipelines agent list --include-assigned-request --pool-id 12 --query "[].assignedRequest")
     }
 
-    $aciList = (az container list --query "[?location == 'centralus'].name" --output tsv)
+    az container list --query "[?location == 'centralus'].name" --output tsv
 
     Write-Host $aciList
 
