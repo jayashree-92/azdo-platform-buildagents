@@ -1,0 +1,40 @@
+variables:
+  - group: azdo-backend-config
+  - group: terraform-common-backend
+
+pool:
+  vmImage: ubuntu-latest
+
+schedules:
+- cron: "0 1 * * 6"
+  displayName: Weekly Saturday
+  branches:
+    include:
+    - main
+
+trigger: none
+pr: none
+
+stages:
+  - stage: Docker
+    displayName: "Docker Build"
+    jobs:
+      - template: templates/docker-build.yml
+        parameters:
+          Location: cu
+          Section: acr
+      - template: templates/docker-build.yml
+        parameters:
+          Location: eu
+          Section: acr
+      - template: templates/docker-build.yml
+        parameters:
+          Location: ci
+          Section: acr
+  - stage: Containers
+    displayName: "Restart Containers"
+    jobs:
+      - template: templates/docker-restart.yml
+
+          
+  

@@ -1,11 +1,6 @@
 FROM ubuntu:20.04
 
 # ---------------------------------------------
-# Variables
-# ---------------------------------------------
-ARG TERRAFORM_VERSION=1.3.3
-
-# ---------------------------------------------
 # Ubuntu Update and Upgrade Repositories
 # ---------------------------------------------
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
@@ -31,7 +26,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
     python \
     pip \
     vim \
-    dnsutils
+    dnsutils \
+    gnupg
 
 # ---------------------------------------------
 # Install Azure CLI (Latest)
@@ -45,13 +41,20 @@ RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 # ---------------------------------------------
 # Install Terraform CLI (Version from ARG)
 # ---------------------------------------------
-RUN wget --progress=dot:mega https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
-RUN \
-	echo "Installing Terraform ${TERRAFORM_VERSION}..." && \
-	unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
-	mv terraform /usr/local/bin/ && \
-	chmod +x /usr/local/bin/terraform
 
+RUN \
+    wget -O- https://apt.releases.hashicorp.com/gpg | \
+    gpg --dearmor | \
+    tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+
+RUN \
+    echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
+    https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
+    tee /etc/apt/sources.list.d/hashicorp.list
+
+RUN \
+    apt-get update && \
+    apt-get install terraform
 
 # ---------------------------------------------
 # Ansible CLI (Latest)
