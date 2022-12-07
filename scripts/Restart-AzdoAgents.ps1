@@ -23,7 +23,11 @@ param (
 
     [Parameter()]
     [string]
-    $tenantId
+    $tenantId,
+
+    [Parameter()]
+    [string]
+    $azdoUrl
 )
 
 # ----------------------------------------------
@@ -32,6 +36,7 @@ param (
 
 try {
     az login --service-principal -u $appId -p $secretId --tenant $tenantId
+    az devops login --organization $azdoUrl
 }
 catch {
     Write-Warning "Azure Authentication Failed"
@@ -46,6 +51,8 @@ $poolIds = @{
 # --------------------------------------------------------------
 # Get Agent Status and restart containers when no jobs running
 # --------------------------------------------------------------
+
+az devops configure --defaults organization=
 
 $poolIds.keys | ForEach-Object {
 
