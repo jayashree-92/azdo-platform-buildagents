@@ -62,7 +62,17 @@ try {
     }
 
     # test temp
-    az pipelines agent list --include-assigned-request --pool-id 12 --query "[].assignedRequest"
+    $test = (az pipelines agent list --include-assigned-request --pool-id 12 --query "[].assignedRequest")
+
+    while ($test -ne "[]") {
+        Write-Host "The pool still running jobs, retrying in 10 seconds..."
+        Start-Sleep 10
+        $list = (az pipelines agent list --include-assigned-request --pool-id 12 --query "[].assignedRequest")
+    }
+
+    Write-Host "Continue after test"
+
+    # END TEST
     
     $poolIds.keys | ForEach-Object {
     
