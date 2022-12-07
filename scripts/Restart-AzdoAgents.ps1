@@ -34,15 +34,15 @@ param (
     $azdoToken
 )
 
-$env:AZURE_DEVOPS_EXT_PAT = $azdoToken
-
 # ----------------------------------------------
 # Azure Authentication
 # ----------------------------------------------
 
 try {
+    Write-Host "Login to Azure..."
     az login --service-principal -u $appId -p $secretId --tenant $tenantId
-    az devops login --organization $azdoUrl
+    Write-Host "Login to Azure DevOps..."
+    Write-Output $azdoToken | az devops login --organization $azdoUrl
 }
 catch {
     Write-Warning "Azure Authentication Failed"
