@@ -61,6 +61,9 @@ try {
         "14" = "centralindia"
     }
 
+    # test temp
+    az pipelines agent list --include-assigned-request --pool-id 12 --query "[].assignedRequest"
+    
     $poolIds.keys | ForEach-Object {
     
         $list = (az pipelines agent list --include-assigned-request --pool-id $_ --query "[].assignedRequest")
