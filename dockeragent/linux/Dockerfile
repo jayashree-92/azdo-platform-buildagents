@@ -3,7 +3,7 @@ FROM ubuntu:20.04
 # ---------------------------------------------
 # Variables
 # ---------------------------------------------
-ARG TERRAFORM_VERSION=1.3.3
+ARG TERRAFORM_VERSION=1.3.5
 
 # ---------------------------------------------
 # Ubuntu Update and Upgrade Repositories

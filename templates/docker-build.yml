@@ -3,8 +3,8 @@ parameters:
 - name: Section
 
 jobs:
-- job: Docker_Build
-  displayName: 'Docker Build'
+- job: Docker_Build_${{ parameters.Location }}
+  displayName: 'Docker Build ${{ parameters.Location }}'
   steps:
     - template: terraform-env-init.yml
       parameters:
