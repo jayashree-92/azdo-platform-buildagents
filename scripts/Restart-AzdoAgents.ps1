@@ -43,6 +43,7 @@ try {
     az login --service-principal -u $appId -p $secretId --tenant $tenantId
     Write-Host "Login to Azure DevOps..."
     Write-Output $azdoToken | az devops login --organization $azdoUrl
+    az devops configure --defaults organization=$azdoUrl
 }
 catch {
     Write-Warning "Azure Authentication Failed"
@@ -57,8 +58,6 @@ $poolIds = @{
 # --------------------------------------------------------------
 # Get Agent Status and restart containers when no jobs running
 # --------------------------------------------------------------
-
-az devops configure --defaults organization=
 
 $poolIds.keys | ForEach-Object {
 
