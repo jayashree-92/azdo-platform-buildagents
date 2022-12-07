@@ -71,8 +71,8 @@ $poolIds.keys | ForEach-Object {
     $list = (az pipelines agent list --include-assigned-request --pool-id $_ --query "[].assignedRequest")
     
     while ($list -ne "[]") {
-        Write-Host "##[section] The pool in $($poolIds[$_]) still running jobs, retrying in 10 seconds..."
-        Start-Sleep 10
+        Write-Host "##[warning] The pool in $($poolIds[$_]) still running jobs, retrying in 30 seconds..."
+        Start-Sleep 30
         $list = (az pipelines agent list --include-assigned-request --pool-id $_ --query "[].assignedRequest")
     }
     
