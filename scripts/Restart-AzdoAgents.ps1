@@ -18,7 +18,7 @@ param (
     $appId,
 
     [Parameter()]
-    [securestring]
+    [string]
     $secretId,
 
     [Parameter()]
