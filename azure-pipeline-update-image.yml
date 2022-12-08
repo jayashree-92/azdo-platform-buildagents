@@ -35,6 +35,21 @@ stages:
     displayName: "Restart Containers"
     jobs:
       - template: templates/docker-restart.yml
+  - stage: Cleanup
+    displayName: "ACR Cleanup"
+    jobs:
+      - template: templates/docker-cleanup.yml
+        parameters:
+          Location: cu
+          Section: acr
+      - template: templates/docker-cleanup.yml
+        parameters:
+          Location: eu
+          Section: acr
+      - template: templates/docker-cleanup.yml
+        parameters:
+          Location: ci
+          Section: acr
 
           
   

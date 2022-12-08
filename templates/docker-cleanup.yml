@@ -1,0 +1,22 @@
+parameters:
+- name: Location
+- name: Section
+
+jobs:
+  - job: Docker_Cleanup
+    displayName: "Docker Cleanup"
+    steps:
+      - template: terraform-env-init.yml
+        parameters:
+          Location: ${{ parameters.Location }}
+          Section: ${{ parameters.Section }}
+      - bash: |
+          export ACR_NAME=$(cd ../../terraform-${{ parameters.Section }} && terraform output --raw acr_name)
+          pwsh ./Start-RegistryCleanup.ps1 -appId $ARM_CLIENT_ID -appSecret $ARM_CLIENT_SECRET -subscriptionId $ARM_SUBSCRIPTION_ID -tenant $ARM_TENANT_ID -acrName $ACR_NAME -keptImages 5
+        displayName: "Cleanup ACR Repositories"
+        workingDirectory: $(Build.SourcesDirectory)/scripts
+        env:
+          ARM_SUBSCRIPTION_ID:  $(arm-subscription-id)
+          ARM_CLIENT_ID:        $(arm-client-id)
+          ARM_CLIENT_SECRET:    $(arm-client-secret)
+          ARM_TENANT_ID:        $(arm-tenant-id)
