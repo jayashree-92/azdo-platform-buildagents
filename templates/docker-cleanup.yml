@@ -11,7 +11,7 @@ jobs:
           Location: ${{ parameters.Location }}
           Section: ${{ parameters.Section }}
       - bash: |
-          export ACR_NAME=$(cd ../../terraform-${{ parameters.Section }} && terraform output --raw acr_name)
+          export ACR_NAME=$(cd ../terraform-${{ parameters.Section }} && terraform output --raw acr_name)
           pwsh ./Start-RegistryCleanup.ps1 -appId $ARM_CLIENT_ID -appSecret $ARM_CLIENT_SECRET -subscriptionId $ARM_SUBSCRIPTION_ID -tenant $ARM_TENANT_ID -acrName $ACR_NAME -keptImages 5
         displayName: "Cleanup ACR Repositories"
         workingDirectory: $(Build.SourcesDirectory)/scripts
