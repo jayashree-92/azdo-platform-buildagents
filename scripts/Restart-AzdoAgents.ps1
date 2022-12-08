@@ -19,7 +19,7 @@ param (
 
     [Parameter()]
     [string]
-    $secretId,
+    $appSecret,
 
     [Parameter()]
     [string]
@@ -46,7 +46,7 @@ $env:AZURE_DEVOPS_EXT_PAT = $azdoToken
 
 try {
     Write-Host "##[section] Login to Azure Portal..."
-    az login --service-principal -u $appId -p $secretId --tenant $tenantId
+    az login --service-principal -u $appId -p $appSecret --tenant $tenantId
     az account set -s $subscriptionId
     Write-Host "##[section] Login to Azure DevOps..."
     Write-Host "##[section] Using $azdoUrl"
