@@ -3,8 +3,8 @@ parameters:
 - name: Section
 
 jobs:
-  - job: Docker_Cleanup
-    displayName: "Docker Cleanup"
+  - job: Docker_Cleanup_${{ parameters.Location }}
+    displayName: "Docker Cleanup _${{ parameters.Location }}"
     steps:
       - template: terraform-env-init.yml
         parameters:
