@@ -5,8 +5,8 @@ parameters:
 steps:
 - task: InstallSSHKey@0
   inputs:
-    knownHostsEntry: "$(terraform_git_ssh_known_hosts)"
-    sshPublicKey: "$(terraform_git_ssh_pub)"
+    knownHostsEntry: "$(tf-git-ssh-known-hosts)"
+    sshPublicKey: "$(tf-git-ssh-pub)"
     sshKeySecureFile: "terraform_rsa"
 - bash: |
     terraform version
