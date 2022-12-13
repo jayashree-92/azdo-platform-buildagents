@@ -1,6 +1,6 @@
 variables:
   - group: azdo-backend-config
-  - group: terraform-common-backend
+  - group: terraform
 
 pool:
   vmImage: ubuntu-latest
