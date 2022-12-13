@@ -10,6 +10,6 @@ jobs:
           ARM_SUBSCRIPTION_ID:  $(arm-subscription-id)
           ARM_CLIENT_ID:        $(arm-client-id)
           ARM_CLIENT_SECRET:    $(arm-client-secret)
-          ARM_TENANT_ID:        $(arm-tenant-id)
+          ARM_TENANT_ID:        $(tf-arm-tenant-id)
           AZURE_DEVOPS_EXT_PAT: $(AZP_TOKEN)
-          AZP_URL:              $(AZP_URL)
+          AZP_URL:              $(tf-azdo-url)

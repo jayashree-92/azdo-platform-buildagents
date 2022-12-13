@@ -34,7 +34,7 @@ linux_container_config = {
         }
       }
     }
-    azdo_url              = "#{AZP_URL}#"
+    azdo_url              = "#{tf-azdo-url}#"
     azdo_pat_token        = "#{AZP_TOKEN}#"
     azdo_agent_pool_name  = "#{AZP_POOL_CI}#"
     azdo_number_of_agents = #{AZP_NUMBER_OF_LINUX_AGENTS_CI}#
@@ -42,8 +42,8 @@ linux_container_config = {
 }
 
 remote_state_acr = {
-  storage_account_name = "#{tf-state-blob-account}#"
+  storage_account_name = "#{tf-state-blob-global-account}#"
   container_name       = "#{tf-state-blob-container}#"
   key                  = "#{tf-state-blob-file-acr-ci}#"
-  access_key           = "#{tf-state-blob-access-key}#"
+  access_key           = "#{tf-state-blob-global-access-key}#"
 }
