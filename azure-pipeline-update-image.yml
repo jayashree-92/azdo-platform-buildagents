@@ -8,6 +8,7 @@ pool:
 schedules:
 - cron: "0 1 * * 6"
   displayName: Weekly Saturday
+  always: true
   branches:
     include:
     - main
