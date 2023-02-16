@@ -29,6 +29,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
     dnsutils \
     gnupg
 
+
 # ---------------------------------------------
 # Install Azure CLI (Latest)
 # ---------------------------------------------
@@ -37,6 +38,12 @@ RUN dpkg -i packages-microsoft-prod.deb
 RUN apt-get update
 RUN add-apt-repository universe
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+
+# ---------------------------------------------
+# Install .NET Runtimes (For DevOps Security Extension)
+# ---------------------------------------------
+RUN apt-get update && \
+    apt-get install -y aspnetcore-runtime-6.0 aspnetcore-runtime-3.1 -y
 
 # ---------------------------------------------
 # Install Terraform CLI (Version from ARG)
