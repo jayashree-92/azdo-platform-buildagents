@@ -40,10 +40,10 @@ RUN add-apt-repository universe
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
 # ---------------------------------------------
-# Install .NET Runtimes (For DevOps Security Extension)
+# Install .NET SDKs (For DevOps Security Extension)
 # ---------------------------------------------
 RUN apt-get update && \
-    apt-get install -y aspnetcore-runtime-6.0 aspnetcore-runtime-3.1 -y
+    apt-get install -y dotnet-sdk-6.0 dotnet-sdk-3.1
 
 # ---------------------------------------------
 # Install Terraform CLI (Version from ARG)
