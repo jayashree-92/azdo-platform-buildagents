@@ -28,3 +28,6 @@ steps:
   displayName: Terraform Validate
   workingDirectory: $(Build.SourcesDirectory)/terraform-${{ parameters.Section }}
   continueOnError: false
+- task: MicrosoftSecurityDevOps@1
+  displayName: 'Microsoft Security DevOps'
+  continueOnError: false
