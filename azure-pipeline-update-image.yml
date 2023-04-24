@@ -28,7 +28,7 @@ stages:
         steps:
           - task: BoostSecurityScan@1
             inputs:
-              apiToken: $(boostApiToken)
+              apiToken: $(bsec_app_key)
               registryModule: boostsecurityio/native-scanner
 
   - stage: Docker
