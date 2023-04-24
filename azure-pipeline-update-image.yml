@@ -19,13 +19,13 @@ pr: none
 
 stages:
   - stage: Run Security Scanners
-      jobs:
-        - job:
+    jobs:
+      - job:
           steps:
-            - task: BoostSecurityScan@1
-              inputs:
-                apiToken: $(bsec_app_key)
-                registryModule: boostsecurityio/native-scanner
+          - task: BoostSecurityScan@1
+            inputs:
+              apiToken: $(bsec_app_key)
+              registryModule: boostsecurityio/native-scanner
   - stage: Docker
     displayName: "Docker Build"
     jobs:
