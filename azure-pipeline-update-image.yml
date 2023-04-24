@@ -19,7 +19,10 @@ pr: none
 
 stages:
   - stage: Security
-    displayName: Run Security Scanners
+    displayName: Run Security 
+    variables:
+      - name: isMainBranch
+        value: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
     jobs:
       - job:
         steps:
