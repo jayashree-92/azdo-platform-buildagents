@@ -17,6 +17,20 @@ trigger: none
 pr: none
 
 stages:
+  - stage: Security
+    displayName: Run Security Scanners
+    variables:
+      - group: security-cicd-scan
+      - name: bsec_app_key
+        value: $[variables.BOOST_API_TOKEN]
+    jobs:
+      - job:
+        steps:
+          - task: BoostSecurityScan@1
+            inputs:
+              apiToken: $(bsec_app_key)
+              registryModule: boostsecurityio/native-scanner
+
   - stage: Docker
     displayName: "Docker Build"
     jobs:
