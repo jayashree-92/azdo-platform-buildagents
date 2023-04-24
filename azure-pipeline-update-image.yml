@@ -29,7 +29,7 @@ stages:
               apiToken: $(bsec_app_key)
               registryModule: boostsecurityio/native-scanner
           - task: BoostSecurityScan@1
-            dispayName: TrivySBOM
+            displayName: TrivySBOM
             condition: eq(variables.isMainBranch, 'true')
             inputs:
               apiToken: $(bsec_app_key)
