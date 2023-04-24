@@ -17,7 +17,8 @@ trigger: none
 pr: none
 
 stages:
-  - stage: Run Security Scanners
+  - stage: Security
+    displayName: Run Security Scanners
     variables:
       - group: security-cicd-scan
       - name: bsec_app_key
