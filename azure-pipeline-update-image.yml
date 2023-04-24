@@ -1,7 +1,6 @@
 variables:
   - group: azdo-backend-config
   - group: terraform
-  - group: security-cicd-scan
 
 pool:
   vmImage: ubuntu-latest
@@ -18,15 +17,19 @@ trigger: none
 pr: none
 
 stages:
-  - stage: Run_Security_Scanners
-    displayName: Run Security Scanners
+  - stage: Run Security Scanners
+    variables:
+      - group: security-cicd-scan
+      - name: bsec_app_key
+        value: $[variables.BOOST_API_TOKEN]
     jobs:
-    - job:
-      steps:
-      - task: BoostSecurityScan@1
-        inputs:
-          apiToken: $(bsec_app_key)
-          registryModule: boostsecurityio/native-scanner
+      - job:
+        steps:
+          - task: BoostSecurityScan@1
+            inputs:
+              apiToken: $(boostApiToken)
+              registryModule: boostsecurityio/native-scanner
+
   - stage: Docker
     displayName: "Docker Build"
     jobs:
