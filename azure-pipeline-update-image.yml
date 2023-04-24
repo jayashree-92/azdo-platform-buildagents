@@ -24,10 +24,16 @@ stages:
       - job:
         steps:
           - task: BoostSecurityScan@1
+            displayName: Native Scanner
             inputs:
               apiToken: $(bsec_app_key)
               registryModule: boostsecurityio/native-scanner
-
+          - task: BoostSecurityScan@1
+            displayName: TrivySBOM
+            condition: eq(variables.isMainBranch, 'true')
+            inputs:
+              apiToken: $(bsec_app_key)
+              registryModule: boostsecurityio/trivy-sbom
   - stage: Docker
     displayName: "Docker Build"
     jobs:
