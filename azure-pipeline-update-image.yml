@@ -32,11 +32,11 @@ stages:
               apiToken: $(bsec_app_key)
               registryModule: boostsecurityio/native-scanner
           - task: BoostSecurityScan@1
-            displayName: TrivySBOM
+            displayName: Checkov
             condition: eq(variables.isMainBranch, 'true')
             inputs:
               apiToken: $(bsec_app_key)
-              registryModule: boostsecurityio/trivy-sbom
+              registryModule: boostsecurityio/checkov
   - stage: Docker
     displayName: "Docker Build"
     jobs:
