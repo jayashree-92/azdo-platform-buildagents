@@ -1,0 +1,9 @@
+steps:
+- task: InstallSSHKey@0
+  inputs:
+    knownHostsEntry: "$(tf-git-ssh-known-hosts)"
+    sshPublicKey: "$(tf-git-ssh-pub)"
+    sshKeySecureFile: "terraform_rsa"
+- task: MicrosoftSecurityDevOps@1
+  displayName: 'Microsoft Security DevOps'
+  continueOnError: false

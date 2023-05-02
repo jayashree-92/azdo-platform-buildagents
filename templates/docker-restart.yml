@@ -11,5 +11,5 @@ jobs:
           ARM_CLIENT_ID:        $(arm-client-id)
           ARM_CLIENT_SECRET:    $(arm-client-secret)
           ARM_TENANT_ID:        $(tf-arm-tenant-id)
-          AZURE_DEVOPS_EXT_PAT: $(AZP_TOKEN)
+          AZURE_DEVOPS_EXT_PAT: $(tf-azdo-pat)
           AZP_URL:              $(tf-azdo-url)

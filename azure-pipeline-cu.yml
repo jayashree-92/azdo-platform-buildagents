@@ -1,5 +1,5 @@
 variables:
-  - group: azdo-backend-config
+  - group: azdo-platform-build-agents
   - group: terraform
 
 pool:
@@ -26,6 +26,13 @@ stages:
             parameters:
               Location: cu
               Section: aci
+  - stage: Security_Scans
+    displayName: "Security Scans"
+    jobs: 
+      - job: devops_security_scans
+        displayName: "DevOps Security Scans"
+        steps:
+          - template: templates/security-stage.yml
   - stage: Terraform_CD_ACR
     displayName: "Terraform CD ACR"
     jobs:

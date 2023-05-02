@@ -1,7 +1,6 @@
 variables:
-  - group: azdo-backend-config
+  - group: azdo-platform-build-agents
   - group: terraform
-  - group: security-cicd-scan
 
 pool:
   vmImage: ubuntu-latest
@@ -18,25 +17,6 @@ trigger: none
 pr: none
 
 stages:
-  - stage: Security
-    displayName: Run Security 
-    variables:
-      - name: isMainBranch
-        value: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
-    jobs:
-      - job:
-        steps:
-          - task: BoostSecurityScan@1
-            displayName: Native Scanner
-            inputs:
-              apiToken: $(bsec_app_key)
-              registryModule: boostsecurityio/native-scanner
-          - task: BoostSecurityScan@1
-            displayName: Checkov
-            condition: eq(variables.isMainBranch, 'true')
-            inputs:
-              apiToken: $(bsec_app_key)
-              registryModule: boostsecurityio/checkov
   - stage: Docker
     displayName: "Docker Build"
     jobs:
