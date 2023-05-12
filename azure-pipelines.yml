@@ -1,0 +1,76 @@
+variables:
+  - group: azdo-platform-build-agents
+  - group: terraform
+
+pool:
+  vmImage: ubuntu-latest
+
+trigger: none
+
+parameters:
+  - name: locations
+    type: object
+    default:
+      - CI
+      - CU
+      - EU
+
+stages:
+  - stage: Build
+    jobs:
+
+    - job: Publish
+      displayName: Publish
+      steps:
+      - publish: $(Build.SourcesDirectory)
+        artifact: sources
+        displayName: Publish Sources Directory
+  
+  - ${{ each location in parameters.locations }}:
+    - template: pipeline-release.yml
+      parameters:
+        environment: acr
+        workingDirectory: $(Agent.BuildDirectory)/sources/terraform-acr
+        deploymentDirectory: '../deployments'
+        sourcesArtifactName: sources
+        location: ${{ location }}
+        dependsOn: 'Build'
+        
+
+  - ${{ each location in parameters.locations }}:
+    - template: pipeline-release.yml
+      parameters:
+        environment: aci
+        workingDirectory: $(Agent.BuildDirectory)/sources/terraform-aci
+        deploymentDirectory: '../deployments'
+        sourcesArtifactName: sources
+        location: ${{ location }}
+        dependsOn: Applyacr${{ location }}
+        preTerraformTask:
+            - task: replacetokens@3
+              displayName: Replace Tokens
+              inputs:
+                rootDirectory: $(Agent.BuildDirectory)/sources/deployments/${{ lower(location) }}
+                targetFiles: 'aci.tfvars'
+                tokenPrefix: '#{'
+                tokenSuffix: '}#'
+                enableTelemetry: false
+  
+  - ${{ each location in parameters.locations }}:
+    - template: pipeline-release.yml
+      parameters:
+        environment: acidev
+        workingDirectory: $(Agent.BuildDirectory)/sources/terraform-aci
+        deploymentDirectory: '../deployments'
+        sourcesArtifactName: sources
+        location: ${{ location }}
+        dependsOn: Applyacr${{ location }}
+        preTerraformTask:
+            - task: replacetokens@3
+              displayName: Replace Tokens
+              inputs:
+                rootDirectory: $(Agent.BuildDirectory)/sources/deployments/${{ lower(location) }}
+                targetFiles: 'acidev.tfvars'
+                tokenPrefix: '#{'
+                tokenSuffix: '}#'
+                enableTelemetry: false

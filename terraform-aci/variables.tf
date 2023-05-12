@@ -1,6 +1,13 @@
 variable "linux_container_config" {
   description = "Linux Container Group Configuration"
   type        = map(any)
+  default     = {}
+}
+
+variable "windows_container_config" {
+  description = "Windows Container Group Configuration"
+  type        = map(any)
+  default     = {}
 }
 
 variable "virtual_network" {

@@ -1,0 +1,124 @@
+parameters:
+- name: environment
+  type: string
+- name: workingDirectory
+  type: string
+- name: sourcesArtifactName
+  type: string
+- name: deploymentDirectory
+  type: string
+  default: 'deployments'
+- name: location
+  type: string
+- name: dependsOn
+  type: object
+  default: []
+- name: preTerraformTask
+  type: object
+  default: []
+
+stages:
+- stage: Plan${{ parameters.environment }}${{ parameters.location }}
+  displayName: "Plan ${{ upper(parameters.environment) }} ${{ parameters.location }}"
+  dependsOn: ${{ parameters.dependsOn}}
+
+  jobs:
+    - job: TerraformPlan
+      displayName: Terraform Plan
+      steps:
+        - checkout: none
+        - download: current
+          artifact: ${{ parameters.sourcesArtifactName }}
+          displayName: Download sources directory
+
+        - template: templates/install-ssh-key.yml
+          parameters:
+            knownHostsEntry: "$(tf-git-ssh-known-hosts)"
+            sshPublicKey: "$(tf-git-ssh-pub)"
+            sshKeySecureFile: "terraform_rsa"
+
+        - template: templates/terraform-init.yml
+          parameters:
+            stateBlobAccountName:   $(tf-state-blob-global-account)
+            stateBlobContainerName: $(tf-state-blob-container)
+            stateBlobFile:          $(tf-state-blob-file-${{ lower(parameters.environment)}}-${{ lower(parameters.location) }})
+            stateBlobAccessKey:     $(tf-state-blob-global-access-key)
+            workingDirectory:       ${{ parameters.workingDirectory }}
+
+        - template: templates/terraform-plan.yml
+          parameters:
+            armSubscriptionId:    $(arm-subscription-id)
+            armClientId:          $(arm-client-id)
+            armClientSecret:      $(arm-client-secret)
+            armTenantId:          $(tf-arm-tenant-id)
+            workingDirectory:     ${{ parameters.workingDirectory }}
+            environment:          ${{ parameters.environment }}
+            deploymentDirectory:  ${{ parameters.deploymentDirectory }}/${{ lower(parameters.location) }}
+            preTerraformTask:     ${{ parameters.preTerraformTask }}
+            useWorkspace:         false
+
+        - task: CopyFiles@2
+          displayName: Copy plan file
+          inputs:
+            SourceFolder: ${{ parameters.workingDirectory }}
+            Contents: '*.tfplan'
+            TargetFolder: $(Build.ArtifactStagingDirectory)
+          condition: succeededOrFailed()
+
+        - task: PublishPipelineArtifact@1
+          displayName: Publish Pipeline Artifact
+          inputs:
+            artifactName: terraformPlan-${{ parameters.environment }}-${{ parameters.location }}
+            targetPath: $(Build.ArtifactStagingDirectory)
+
+- stage: Apply${{ parameters.environment }}${{ parameters.location }}
+  displayName: "Apply ${{ upper(parameters.environment) }} ${{ parameters.location }}"
+  dependsOn: Plan${{ parameters.environment }}${{ parameters.location }}
+  variables:
+    artifactName: terraformPlan-${{ parameters.environment }}-${{ parameters.location}}
+
+  jobs:
+  - deployment: TerraformApply
+    displayName: Terraform Apply
+    environment: ${{ upper(parameters.environment) }}
+    workspace:
+      clean: all
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: self
+              clean: true
+
+            - download: current
+              displayName: Download Terraform Plan
+              artifact: ${{ variables.artifactName }}
+
+            - download: current
+              artifact: sources
+              displayName: Download source directory
+
+            - template: templates/install-ssh-key.yml
+              parameters:
+                knownHostsEntry: "$(tf-git-ssh-known-hosts)"
+                sshPublicKey: "$(tf-git-ssh-pub)"
+                sshKeySecureFile: "terraform_rsa"
+
+            - template: templates/terraform-init.yml
+              parameters:
+                stateBlobAccountName:   $(tf-state-blob-global-account)
+                stateBlobContainerName: $(tf-state-blob-container)
+                stateBlobFile:          $(tf-state-blob-file-${{ lower(parameters.environment)}}-${{ lower(parameters.location) }})
+                stateBlobAccessKey:     $(tf-state-blob-global-access-key)
+                workingDirectory:       ${{ parameters.workingDirectory }}
+
+            - template: templates/terraform-apply.yml
+              parameters:
+                armSubscriptionId:    $(arm-subscription-id)
+                armClientId:          $(arm-client-id)
+                armClientSecret:      $(arm-client-secret)
+                armTenantId:          $(tf-arm-tenant-id)
+                workingDirectory:     ${{ parameters.workingDirectory }}
+                environment:          ${{ parameters.environment }}
+                useWorkspace:         false
+                commandOptions:       $(Pipeline.Workspace)/${{ variables.artifactName }}/tf-${{ parameters.environment }}.tfplan

@@ -41,3 +41,6 @@ lab.tfvars
 
 # VSCODE
 **/.vscode/*
+
+# Deployment tests
+local.tfvars

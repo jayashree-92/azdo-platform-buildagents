@@ -1,0 +1,121 @@
+variables:
+  - group: azdo-platform-build-agents
+  - group: terraform
+
+pool:
+  vmImage: ubuntu-latest
+
+trigger: none
+    
+schedules:
+- cron: "0 1 * * 6"
+  displayName: Weekly Saturday
+  always: true
+  branches:
+    include:
+    - main
+
+parameters:
+  - name: platforms
+    type: object
+    default:
+      - Linux
+      - Windows
+  - name: secondary_locations
+    type: object
+    default:
+      - CI
+      - EU
+  - name: workingDirectory
+    type: string
+    default: '$(Build.SourcesDirectory)'
+
+stages:
+  - stage: ACR_Build
+    displayName: "ACR Build"
+
+    variables:
+      acrSection: ${{ parameters.workingDirectory }}/terraform-acr
+
+    jobs:
+    - ${{ each platform in parameters.platforms }}:
+      - job:
+        displayName: ACR Build ${{ platform }}
+        steps:
+        - template: templates/install-ssh-key.yml
+          parameters:
+            knownHostsEntry: "$(tf-git-ssh-known-hosts)"
+            sshPublicKey: "$(tf-git-ssh-pub)"
+            sshKeySecureFile: "terraform_rsa"
+        - template: templates/terraform-init.yml
+          parameters:
+            stateBlobAccountName:   $(tf-state-blob-global-account)
+            stateBlobContainerName: $(tf-state-blob-container)
+            stateBlobFile:          $(tf-state-blob-file-acr-cu)
+            stateBlobAccessKey:     $(tf-state-blob-global-access-key)
+            workingDirectory:       $(acrSection)
+        - template: templates/acr-build.yml
+          parameters:
+            Location: cu
+            Section: acr
+            Platform: ${{ platform }}
+  - stage: ACR_Import
+    displayName: "ACR Import"
+
+    variables:
+      acrSection: ${{ parameters.workingDirectory }}/terraform-acr
+      
+    jobs:
+    - job: Source_ACR_NAME
+      displayName: "ACR Source"
+      steps:
+        - template: templates/install-ssh-key.yml
+          parameters:
+            knownHostsEntry: "$(tf-git-ssh-known-hosts)"
+            sshPublicKey: "$(tf-git-ssh-pub)"
+            sshKeySecureFile: "terraform_rsa"
+        - template: templates/terraform-init.yml
+          parameters:
+            stateBlobAccountName:   $(tf-state-blob-global-account)
+            stateBlobContainerName: $(tf-state-blob-container)
+            stateBlobFile:          $(tf-state-blob-file-acr-cu)
+            stateBlobAccessKey:     $(tf-state-blob-global-access-key)
+            workingDirectory:       $(acrSection)
+        - bash : |
+            export ACR_NAME_SOURCE=$(terraform output --raw acr_name)
+            echo "##vso[task.setvariable variable=acrNameSource;isoutput=true]$ACR_NAME_SOURCE"
+          name: acrOutputName
+          displayName: 'Output ACR Name'
+          workingDirectory: $(acrSection)
+    - ${{ each location in parameters.secondary_locations }}:
+      - job:
+        displayName: ACR Import ${{ location }}
+        dependsOn: Source_ACR_NAME
+        variables:
+          acrNameSource: $[ dependencies.Source_ACR_NAME.outputs['acrOutputName.acrNameSource'] ] 
+        steps:
+        - template: templates/install-ssh-key.yml
+          parameters:
+            knownHostsEntry: "$(tf-git-ssh-known-hosts)"
+            sshPublicKey: "$(tf-git-ssh-pub)"
+            sshKeySecureFile: "terraform_rsa"
+        - template: templates/terraform-init.yml
+          parameters:
+            stateBlobAccountName:   $(tf-state-blob-global-account)
+            stateBlobContainerName: $(tf-state-blob-container)
+            stateBlobFile:          $(tf-state-blob-file-acr-${{ lower(location) }})
+            stateBlobAccessKey:     $(tf-state-blob-global-access-key)
+            workingDirectory:       $(acrSection)
+        - template: templates/azure-login.yml
+          parameters:
+            subscriptionId:  $(arm-subscription-id)
+            clientId:        $(arm-client-id)
+            clientSecret:    $(arm-client-secret)
+            tenantId:        $(tf-arm-tenant-id)
+        - template: templates/acr-import.yml
+          parameters:
+            Source: $(acrNameSource)
+            Section: acr
+            Containers:
+              - linuxagent
+              - windowsagent

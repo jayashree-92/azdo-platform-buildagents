@@ -1,0 +1,14 @@
+parameters:
+- name: clientId
+- name: clientSecret
+- name: tenantId
+- name: subscriptionId
+
+
+steps:
+  - pwsh: |
+      az login --service-principal -u ${{ parameters.clientId}} -p  ${{ parameters.clientSecret}} --tenant ${{ parameters.tenantId}}
+      az account set -s  ${{ parameters.subscriptionId}}
+    name: Azure_Login
+    displayName: 'Azure Login'
+    workingDirectory: $(Build.SourcesDirectory)

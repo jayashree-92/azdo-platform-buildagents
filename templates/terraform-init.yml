@@ -1,0 +1,35 @@
+parameters:
+  - name: stateBlobAccountName
+    type: string
+  - name: stateBlobContainerName
+    type: string
+  - name: stateBlobFile
+    type: string
+  - name: stateBlobAccessKey
+    type: string
+  - name: workingDirectory
+    type: string
+    default: 'terraform'
+
+steps:
+- bash: |
+    terraform version
+    terraform init \
+      -backend-config="storage_account_name=$TF_STATE_BLOB_ACCOUNT_NAME" \
+      -backend-config="container_name=$TF_STATE_BLOB_CONTAINER_NAME" \
+      -backend-config="key=$TF_STATE_BLOB_FILE" \
+      -backend-config="access_key=$TF_STATE_BLOB_ACCESS_KEY"
+  displayName: 'Terraform Init'
+  continueOnError: false
+  workingDirectory: ${{ parameters.workingDirectory }}
+  env:
+    TF_STATE_BLOB_ACCOUNT_NAME:   ${{ parameters.stateBlobAccountName }}
+    TF_STATE_BLOB_CONTAINER_NAME: ${{ parameters.stateBlobContainerName }}
+    TF_STATE_BLOB_FILE:           ${{ parameters.stateBlobFile }}
+    TF_STATE_BLOB_ACCESS_KEY:     ${{ parameters.stateBlobAccessKey }}
+
+- bash: |
+    terraform validate
+  displayName: Terraform Validate
+  continueOnError: false
+  workingDirectory: ${{ parameters.workingDirectory }}

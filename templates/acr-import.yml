@@ -1,0 +1,24 @@
+parameters:
+  - name: Source
+  - name: Section
+  - name: Containers
+    type: object
+  - name: Tag
+    default: latest
+
+steps:
+  - pwsh: |
+      $ACR_NAME=(terraform output --raw acr_name)
+      Write-Host $ACR_NAME
+      Write-Host "##vso[task.setvariable variable=ACR_NAME]$ACR_NAME"
+    displayName: 'Export ACR Name'
+    workingDirectory: $(Build.SourcesDirectory)/terraform-${{ parameters.Section }}
+  - ${{ each container in parameters.Containers }}:
+    - pwsh: |
+        az acr import `
+          --name $(ACR_NAME) `
+          --source ${{ parameters.Source }}.azurecr.io/${{ container }}:${{ parameters.Tag }} `
+          --image ${{ container }}:${{ parameters.Tag }} `
+          --force
+      displayName: 'Import Image ${{ container }}'
+      workingDirectory: $(Build.SourcesDirectory)/terraform-${{ parameters.Section }}

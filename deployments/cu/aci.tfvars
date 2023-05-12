@@ -41,6 +41,30 @@ linux_container_config = {
   }
 }
 
+windows_container_config = {
+  default = {
+    ip_address_type = "Private"
+    containers = {
+      default = {
+        name   = "windowsagent"
+        image  = "latest"
+        cpu    = "2"
+        memory = "7"
+        ports = {
+          default = {
+            port     = 443
+            protocol = "TCP"
+          }
+        }
+      }
+    }
+    azdo_url             = "#{tf-azdo-url}#"
+    azdo_pat_token       = "#{tf-azdo-pat}#"
+    azdo_agent_pool_name = "#{AZP_POOL_WINDOWS_CU}#"
+    azdo_number_of_agents = #{AZP_NUMBER_OF_WINDOWS_AGENTS_CU}#
+  }
+}
+
 remote_state_acr = {
   storage_account_name = "#{tf-state-blob-global-account}#"
   container_name       = "#{tf-state-blob-container}#"
