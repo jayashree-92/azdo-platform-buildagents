@@ -1,3 +1,11 @@
+parameters:
+  - name: ARM_SUBSCRIPTION_ID
+  - name: ARM_CLIENT_ID
+  - name: ARM_CLIENT_SECRET
+  - name: ARM_TENANT_ID
+  - name: AZURE_DEVOPS_EXT_PAT
+  - name: AZP_URL
+
 jobs:
   - job: ACI_Restart
     displayName: "ACI Restart"
@@ -7,9 +15,9 @@ jobs:
         displayName: "Restart ACI Containers"
         workingDirectory: $(Build.SourcesDirectory)/scripts
         env:
-          ARM_SUBSCRIPTION_ID:  $(arm-subscription-id)
-          ARM_CLIENT_ID:        $(arm-client-id)
-          ARM_CLIENT_SECRET:    $(arm-client-secret)
-          ARM_TENANT_ID:        $(tf-arm-tenant-id)
-          AZURE_DEVOPS_EXT_PAT: $(tf-azdo-pat)
-          AZP_URL:              $(tf-azdo-url)
+          ARM_SUBSCRIPTION_ID:  ${{ parameters.ARM_SUBSCRIPTION_ID }}
+          ARM_CLIENT_ID:        ${{ parameters.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET:    ${{ parameters.ARM_CLIENT_SECRET }}
+          ARM_TENANT_ID:        ${{ parameters.ARM_TENANT_ID }}
+          AZURE_DEVOPS_EXT_PAT: ${{ parameters.AZURE_DEVOPS_EXT_PAT }}
+          AZP_URL:              ${{ parameters.AZP_URL }}

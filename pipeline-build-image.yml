@@ -40,6 +40,7 @@ stages:
     jobs:
     - ${{ each platform in parameters.platforms }}:
       - job:
+        timeoutInMinutes: 0
         displayName: ACR Build ${{ platform }}
         steps:
         - template: templates/install-ssh-key.yml
@@ -119,3 +120,15 @@ stages:
             Containers:
               - linuxagent
               - windowsagent
+
+  - stage: ACI_Restart
+    displayName: ACI Restart
+    jobs:
+      - template: templates/aci-restart.yml
+        parameters:
+          ARM_SUBSCRIPTION_ID:  $(arm-subscription-id)
+          ARM_CLIENT_ID:        $(arm-client-id)
+          ARM_CLIENT_SECRET:    $(arm-client-secret)
+          ARM_TENANT_ID:        $(tf-arm-tenant-id)
+          AZURE_DEVOPS_EXT_PAT: $(tf-azdo-pat)
+          AZP_URL:              $(tf-azdo-url)
