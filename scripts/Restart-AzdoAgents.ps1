@@ -64,6 +64,8 @@ $poolIds = @{
     "12" = "centralus"
     "13" = "eastus2"
     "14" = "centralindia"
+    "16" = "centralus"
+    "17" = "centralus"
 }
     
 $poolIds.keys | ForEach-Object {
