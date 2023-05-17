@@ -11,7 +11,7 @@ jobs:
     displayName: "ACI Restart"
     steps:
       - pwsh: |
-          ./Restart-AzdoAgents.ps1 -appId $(ARM_CLIENT_ID) -appSecret $(ARM_CLIENT_SECRET) -subscriptionId $(ARM_SUBSCRIPTION_ID) -tenant $(ARM_TENANT_ID) -azdoUrl $(AZP_URL) -azdoToken $(AZURE_DEVOPS_EXT_PAT)
+          ./Restart-AzdoAgents.ps1 -appId $ARM_CLIENT_ID -appSecret $ARM_CLIENT_SECRET -subscriptionId $ARM_SUBSCRIPTION_ID -tenant $ARM_TENANT_ID -azdoUrl $AZP_URL -azdoToken $AZURE_DEVOPS_EXT_PAT
         displayName: "Restart ACI Containers"
         workingDirectory: $(Build.SourcesDirectory)/scripts
         env:
