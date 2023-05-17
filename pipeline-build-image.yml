@@ -21,6 +21,10 @@ parameters:
     default:
       - Linux
       - Windows
+  - name: cleanup_locations
+    type: object
+    default:
+      - CU
   - name: secondary_locations
     type: object
     default:
@@ -132,3 +136,35 @@ stages:
           ARM_TENANT_ID:        $(tf-arm-tenant-id)
           AZURE_DEVOPS_EXT_PAT: $(tf-azdo-pat)
           AZP_URL:              $(tf-azdo-url)
+
+  - stage: ACR_Post
+    displayName: ACR Post Tasks
+
+    variables:
+      acrSection: ${{ parameters.workingDirectory }}/terraform-acr
+
+    jobs:
+      - ${{ each location in parameters.cleanup_locations }}:
+        - job: ACR_Cleanup_${{ upper(location) }}
+          displayName: ACR Cleanup ${{ upper(location) }}
+          steps:
+          - template: templates/install-ssh-key.yml
+            parameters:
+              knownHostsEntry: "$(tf-git-ssh-known-hosts)"
+              sshPublicKey: "$(tf-git-ssh-pub)"
+              sshKeySecureFile: "terraform_rsa"
+          - template: templates/terraform-init.yml
+            parameters:
+              stateBlobAccountName:   $(tf-state-blob-global-account)
+              stateBlobContainerName: $(tf-state-blob-container)
+              stateBlobFile:          $(tf-state-blob-file-acr-${{ lower(location) }})
+              stateBlobAccessKey:     $(tf-state-blob-global-access-key)
+              workingDirectory:       $(acrSection)
+          - template: templates/acr-cleanup.yml
+            parameters:
+              Section:              acr
+              ARM_SUBSCRIPTION_ID:  $(arm-subscription-id)
+              ARM_CLIENT_ID:        $(arm-client-id)
+              ARM_CLIENT_SECRET:    $(arm-client-secret)
+              ARM_TENANT_ID:        $(tf-arm-tenant-id)
+
