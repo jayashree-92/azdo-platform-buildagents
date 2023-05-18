@@ -27,7 +27,6 @@ RUN choco install wget;
 RUN choco install dotnet-6.0-sdk;
 RUN choco install dotnetcore-sdk;
 RUN choco install azure-cli;
-RUN choco install rsat;
 
 # ---------------------------------------------
 # Chocolatey Clear Cache
