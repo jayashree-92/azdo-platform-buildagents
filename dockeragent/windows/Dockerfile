@@ -27,6 +27,7 @@ RUN choco install wget;
 RUN choco install dotnet-6.0-sdk;
 RUN choco install dotnetcore-sdk;
 RUN choco install azure-cli;
+RUN choco install rsat;
 
 # ---------------------------------------------
 # Chocolatey Clear Cache
@@ -39,13 +40,13 @@ RUN `
     `
     # Install Build Tools with the Microsoft.VisualStudio.Workload.AzureBuildTools workload, excluding workloads and components with known issues.
     && (start /w vs_buildtools.exe --quiet --wait --norestart --nocache `
-        --installPath "%ProgramFiles(x86)%\Microsoft Visual Studio\2022\BuildTools" `
-        --add Microsoft.VisualStudio.Workload.AzureBuildTools `
-        --remove Microsoft.VisualStudio.Component.Windows10SDK.10240 `
-        --remove Microsoft.VisualStudio.Component.Windows10SDK.10586 `
-        --remove Microsoft.VisualStudio.Component.Windows10SDK.14393 `
-        --remove Microsoft.VisualStudio.Component.Windows81SDK `
-        || IF "%ERRORLEVEL%"=="3010" EXIT 0) `
+    --installPath "%ProgramFiles(x86)%\Microsoft Visual Studio\2022\BuildTools" `
+    --add Microsoft.VisualStudio.Workload.AzureBuildTools `
+    --remove Microsoft.VisualStudio.Component.Windows10SDK.10240 `
+    --remove Microsoft.VisualStudio.Component.Windows10SDK.10586 `
+    --remove Microsoft.VisualStudio.Component.Windows10SDK.14393 `
+    --remove Microsoft.VisualStudio.Component.Windows81SDK `
+    || IF "%ERRORLEVEL%"=="3010" EXIT 0) `
     `
     # Cleanup
     && del /q vs_buildtools.exe
