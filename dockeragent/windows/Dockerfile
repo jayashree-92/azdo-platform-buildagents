@@ -53,6 +53,7 @@ RUN `
 SHELL ["powershell"]
 RUN Invoke-WebRequest "https://aka.ms/vs/16/release/vs_community.exe" -OutFile "$env:TEMP\vs_community.exe" -UseBasicParsing
 RUN & "$env:TEMP\vs_community.exe" --add Microsoft.VisualStudio.Workload.NetWeb --includeRecommended --quiet --wait --norestart --noUpdateInstaller | Out-Default
+RUN Add-WindowsCapability -online -Name "Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0"
 
 WORKDIR /azp
 
