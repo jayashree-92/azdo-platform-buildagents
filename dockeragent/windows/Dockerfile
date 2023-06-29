@@ -36,6 +36,7 @@ RUN & "$env:TEMP\vs_community.exe" --add Microsoft.VisualStudio.Workload.NetWeb 
 RUN Add-WindowsCapability -online -Name "Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0"
 
 SHELL ["cmd", "/S", "/C"]
+RUN rmdir /S /Q C:\chococache
 
 RUN `
     # Download the Build Tools bootstrapper.
@@ -53,12 +54,6 @@ RUN `
     `
     # Cleanup
     && del /q vs_buildtools.exe
-
-# ---------------------------------------------
-# Chocolatey Clear Cache
-# ---------------------------------------------
-RUN rmdir /S /Q C:\chococache
-
 
 WORKDIR /azp
 
