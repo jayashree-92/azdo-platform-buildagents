@@ -87,8 +87,9 @@ stages:
             stateBlobAccessKey:     $(tf-state-blob-global-access-key)
             workingDirectory:       $(acrSection)
         - bash : |
-            export ACR_NAME_SOURCE=$(terraform output --raw acr_name)
+            export ACR_NAME_SOURCE=$(terraform output -json acr | jq -r . | jq ".ado.container_registry_name")
             echo "##vso[task.setvariable variable=acrNameSource;isoutput=true]$ACR_NAME_SOURCE"
+            echo $ACR_NAME_SOURCE
           name: acrOutputName
           displayName: 'Output ACR Name'
           workingDirectory: $(acrSection)

@@ -1,12 +1,17 @@
-subscription_id = "5a1019fa-917d-4ca0-8580-52ff2469e621"
+global_settings = {
+  environment_code = "prod"
+  function         = "dvp"
+  location         = "centralus"
+  location_code    = "cu"
+}
 
-location         = "centralus"
-location_code    = "cu"
-environment_code = "prod"
+resource_groups = {
+  ado = { purpose = "ado" }
+}
 
-function_name = "dvp"
-purpose_name  = "ado"
-
-acr = {
-  sku = "Basic"
+container_registries = {
+  ado = {
+    purpose            = "ado"
+    resource_group_key = "ado"
+  }
 }

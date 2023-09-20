@@ -8,16 +8,20 @@ parameters:
 
 steps:
   - pwsh: |
-      $ACR_NAME=(terraform output --raw acr_name)
+      $ACR_NAME=(terraform output -json acr | jq -r . | jq ".ado.container_registry_name")
+      $ACR_NAME_SOURCE = ${{ parameters.Source }}
       Write-Host $ACR_NAME
       Write-Host "##vso[task.setvariable variable=ACR_NAME]$ACR_NAME"
+      Write-Host "##vso[task.setvariable variable=ACR_NAME_SOURCE]$ACR_NAME_SOURCE"
     displayName: 'Export ACR Name'
     workingDirectory: $(Build.SourcesDirectory)/terraform-${{ parameters.Section }}
   - ${{ each container in parameters.Containers }}:
     - pwsh: |
+        az account show
+        write-host  $(ACR_NAME_SOURCE).azurecr.io/${{ container }}:${{ parameters.Tag }}
         az acr import `
           --name $(ACR_NAME) `
-          --source ${{ parameters.Source }}.azurecr.io/${{ container }}:${{ parameters.Tag }} `
+          --source $(ACR_NAME_SOURCE).azurecr.io/${{ container }}:${{ parameters.Tag }} `
           --image ${{ container }}:${{ parameters.Tag }} `
           --force
       displayName: 'Import Image ${{ container }}'

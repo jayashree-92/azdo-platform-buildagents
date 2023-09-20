@@ -1,11 +1,13 @@
-module "rg-dockeragents" {
-  source = "git::ssh://git@ssh.dev.azure.com/v3/Innocap/Terraform-Modules/terraform-azurerm-resource-group//?ref=v1.0.2"
+module "resource_groups" {
+  source   = "git::ssh://git@ssh.dev.azure.com/v3/Innocap/Terraform-Modules/terraform-azurerm-resource-group//module//?ref=v2.1.0"
+  for_each = var.resource_groups
 
-  function_name      = var.function_name
-  purpose_name       = var.purpose_name
-  environment_code   = var.environment_code
-  location_code      = var.location_code
-  location           = var.location
-  create             = true
-  enable_delete_lock = false
+  purpose_name       = each.value.purpose
+  environment_code   = local.global_settings.environment_code
+  function_name      = local.global_settings.function
+  location_code      = local.global_settings.location_code
+  location           = local.global_settings.location
+  create             = try(each.value.create, true)
+  enable_delete_lock = try(each.value.enable_delete_lock, false)
+  tags = local.tags
 }
