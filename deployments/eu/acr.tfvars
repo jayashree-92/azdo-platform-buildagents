@@ -5,15 +5,8 @@ global_settings = {
   location_code    = "eu"
 }
 
-resource_groups = {
-  ado = { purpose = "ado" }
-}
+resource_groups = {}
 
-container_registries = {
-  ado = {
-    purpose            = "ado"
-    resource_group_key = "ado"
-  }
-}
+container_registries = {}
 
 
