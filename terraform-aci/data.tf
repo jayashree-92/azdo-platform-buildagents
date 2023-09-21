@@ -27,6 +27,6 @@ data "terraform_remote_state" "acr" {
 }
 
 data "azurerm_container_registry" "acr" {
-  name                = data.terraform_remote_state.acr.outputs.acr_name
-  resource_group_name = data.terraform_remote_state.acr.outputs.acr_resource_group_name
+  name                = data.terraform_remote_state.acr.outputs.acr.ado.container_registry_name
+  resource_group_name = data.terraform_remote_state.acr.outputs.acr.ado.container_registry_resource_group_name
 }
