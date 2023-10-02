@@ -29,7 +29,6 @@ parameters:
     type: object
     default:
       - CI
-      - EU
   - name: workingDirectory
     type: string
     default: '$(Build.SourcesDirectory)'
