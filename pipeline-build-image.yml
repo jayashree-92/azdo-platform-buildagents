@@ -113,9 +113,9 @@ stages:
             workingDirectory:       $(acrSection)
         - template: templates/azure-login.yml
           parameters:
-            subscriptionId:  $(arm-subscription-id)
-            clientId:        $(arm-client-id)
-            clientSecret:    $(arm-client-secret)
+            subscriptionId:  $(tf-arm-subscription-id)
+            clientId:        $(tf-arm-client-id-azdo-innocap)
+            clientSecret:    $(tf-arm-client-secret-azdo-innocap)
             tenantId:        $(tf-arm-tenant-id)
         - template: templates/acr-import.yml
           parameters:
@@ -130,9 +130,9 @@ stages:
     jobs:
       - template: templates/aci-restart.yml
         parameters:
-          ARM_SUBSCRIPTION_ID:  $(arm-subscription-id)
-          ARM_CLIENT_ID:        $(arm-client-id)
-          ARM_CLIENT_SECRET:    $(arm-client-secret)
+          ARM_SUBSCRIPTION_ID:  $(tf-arm-subscription-id)
+          ARM_CLIENT_ID:        $(tf-arm-client-id-azdo-innocap)
+          ARM_CLIENT_SECRET:    $(tf-arm-client-secret-azdo-innocap)
           ARM_TENANT_ID:        $(tf-arm-tenant-id)
           AZURE_DEVOPS_EXT_PAT: $(tf-azdo-pat)
           AZP_URL:              $(tf-azdo-url)
@@ -163,8 +163,8 @@ stages:
           - template: templates/acr-cleanup.yml
             parameters:
               Section:              acr
-              ARM_SUBSCRIPTION_ID:  $(arm-subscription-id)
-              ARM_CLIENT_ID:        $(arm-client-id)
-              ARM_CLIENT_SECRET:    $(arm-client-secret)
+              ARM_SUBSCRIPTION_ID:  $(tf-arm-subscription-id)
+              ARM_CLIENT_ID:        $(tf-arm-client-id-azdo-innocap)
+              ARM_CLIENT_SECRET:    $(tf-arm-client-secret-azdo-innocap)
               ARM_TENANT_ID:        $(tf-arm-tenant-id)
 

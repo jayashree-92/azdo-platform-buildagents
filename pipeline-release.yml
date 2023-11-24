@@ -47,9 +47,9 @@ stages:
 
         - template: templates/terraform-plan.yml
           parameters:
-            armSubscriptionId:    $(arm-subscription-id)
-            armClientId:          $(arm-client-id)
-            armClientSecret:      $(arm-client-secret)
+            armSubscriptionId:    $(tf-arm-subscription-id)
+            armClientId:          $(tf-arm-client-id-azdo-innocap)
+            armClientSecret:      $(tf-arm-client-secret-azdo-innocap)
             armTenantId:          $(tf-arm-tenant-id)
             workingDirectory:     ${{ parameters.workingDirectory }}
             environment:          ${{ parameters.environment }}
@@ -114,9 +114,9 @@ stages:
 
             - template: templates/terraform-apply.yml
               parameters:
-                armSubscriptionId:    $(arm-subscription-id)
-                armClientId:          $(arm-client-id)
-                armClientSecret:      $(arm-client-secret)
+                armSubscriptionId:    $(tf-arm-subscription-id)
+                armClientId:          $(tf-arm-client-id-azdo-innocap)
+                armClientSecret:      $(tf-arm-client-secret-azdo-innocap)
                 armTenantId:          $(tf-arm-tenant-id)
                 workingDirectory:     ${{ parameters.workingDirectory }}
                 environment:          ${{ parameters.environment }}
