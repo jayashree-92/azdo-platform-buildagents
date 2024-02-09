@@ -23,7 +23,8 @@ RUN choco install jdk8;
 RUN choco install nodejs-lts;
 RUN choco install maven;
 RUN choco install docker;
-RUN choco install terraform;
+# RUN choco install terraform;
+RUN choco install terraform --version 1.7.2 
 RUN choco install terraform-docs;
 RUN choco install openssl;
 RUN choco install wget;
