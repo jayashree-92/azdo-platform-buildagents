@@ -1,6 +1,7 @@
 # escape=`
 
-FROM mcr.microsoft.com/dotnet/framework/sdk:4.8-20211012-windowsservercore-ltsc2019 as baseimage
+# FROM mcr.microsoft.com/dotnet/framework/sdk:4.8-20211012-windowsservercore-ltsc2019 as baseimage
+FROM mcr.microsoft.com/windows/servercore:10.0.17763.4737 as baseimage
 
 
 SHELL [ "powershell" ]
