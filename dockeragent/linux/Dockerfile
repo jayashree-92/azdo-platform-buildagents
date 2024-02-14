@@ -108,8 +108,8 @@ RUN pip --no-input install checkov
 # ---------------------------------------------
 # Install urllib3 (Version 1.26.0 or higher)
 # ---------------------------------------------
-RUN pip install --upgrade urllib3==1.26.7
-RUN python -c "import urllib3; print(urllib3.__version__)"
+RUN python3 -m pip install urllib3==1.26.7
+RUN python3 -c "import urllib3; print(urllib3.__version__)"
 
 
 # ---------------------------------------------
