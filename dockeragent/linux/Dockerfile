@@ -106,10 +106,18 @@ RUN \
 RUN pip --no-input install checkov 
 
 # ---------------------------------------------
+# Install urllib3 (Version 1.26.0 or higher)
+# ---------------------------------------------
+RUN pip install --upgrade urllib3
+RUN python -c "import urllib3; print(urllib3.__version__)"
+
+
+# ---------------------------------------------
 # Install certifi (Version 2023.7.22 or higher)
 # ---------------------------------------------
-RUN pip install certifi>=2024.2.2
-RUN python -c "import certifi; print(certifi.__version__)"
+RUN python3 -m pip install certifi>=2024.2.2
+RUN python3 -c "import certifi; print(certifi.__version__)"
+
 
 # ---------------------------------------------
 # Install cryptography (Version 39.0.1 or higher)
