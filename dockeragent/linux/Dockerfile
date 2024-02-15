@@ -125,19 +125,6 @@ RUN python3 -c "import certifi; print(certifi.__version__)"
 RUN  python3 -m pip install --upgrade cryptography>=42.0.0
 RUN  python3 -c "import cryptography; print(cryptography.__version__)"
 
-
-# ---------------------------------------------
-# Install Ansible (Version 7.0.0 or higher)
-# ---------------------------------------------
-RUN  python3 -m pip install ansible>=8.5.0
-RUN  python3 -m ansible --version
-
-# ---------------------------------------------
-# Install ansible-core (Version 2.14.14 or higher)
-# ---------------------------------------------
-RUN  python3 -m pip install --upgrade ansible-core>=2.14.14
-RUN  python3 -m ansible --version
-
 # ---------------------------------------------
 # Install wheel (Version 0.38.1 or higher)
 # ---------------------------------------------
@@ -157,6 +144,19 @@ RUN python3 -c "import jinja2; print(jinja2.__version__)"
 # RUN pip --no-input install awxkit 
 RUN python3 -m pip install awxkit
 RUN python3 -c "import awxkit; print(awxkit.__version__)"
+
+# ---------------------------------------------
+# Install Ansible (Version 7.0.0 or higher)
+# ---------------------------------------------
+RUN pip install --no-cache-dir ansible==8.5.0
+RUN ansible --version
+
+
+# ---------------------------------------------
+# Install ansible-core (Version 2.14.14 or higher)
+# ---------------------------------------------
+RUN pip install --upgrade ansible-core>=2.14.14
+RUN ansible --version
 
 
 # ---------------------------------------------
