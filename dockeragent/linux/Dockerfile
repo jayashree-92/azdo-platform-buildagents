@@ -137,14 +137,18 @@ RUN  python3 -c "import wheel; print(wheel.__version__)"
 RUN python3 -m pip install --upgrade jinja2>=3.1.3
 RUN python3 -c "import jinja2; print(jinja2.__version__)"
 
+# ---------------------------------------------
+# Active Directory Library for Python
+# ---------------------------------------------
+RUN python3 -m pip install ms_active_directory
+RUN python3 -c "import ms_active_directory; print(ms_active_directory.__version__)"
 
 # ---------------------------------------------
 # AWX CLI for Ansible (Latest)
 # ---------------------------------------------
 # RUN pip --no-input install awxkit 
-RUN python3 -m pip install awxkit
 RUN python3 -m pip install --upgrade awxkit
-
+RUN python3 -c "import awxkit; print(awxkit.__version__)"
 
 # ---------------------------------------------
 # Install Ansible (Version 7.0.0 or higher)
@@ -158,13 +162,6 @@ RUN ansible --version
 # ---------------------------------------------
 RUN pip install --upgrade ansible-core>=2.14.14
 RUN ansible --version
-
-
-# ---------------------------------------------
-# Active Directory Library for Python
-# ---------------------------------------------
-RUN python3 -m pip install ms_active_directory
-RUN python3 -c "import ms_active_directory; print(ms_active_directory.__version__)"
 
 # ---------------------------------------------
 # Docker Configuration
