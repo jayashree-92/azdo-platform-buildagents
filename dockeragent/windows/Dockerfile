@@ -33,6 +33,9 @@ RUN choco install dotnet-6.0-sdk;
 RUN choco install dotnetcore-sdk;
 RUN choco install azure-cli;
 
+# Upgrade all Chocolatey packages to their latest versions
+RUN choco upgrade all -y
+
 # Download the Visual Studio 2019 version 16.11.33 bootstrapper.
 RUN Invoke-WebRequest "https://aka.ms/vs/16/release/vs_community.exe" -OutFile "$env:TEMP\vs_community.exe" -UseBasicParsing
 # Install Visual Studio 2019 with the Microsoft.VisualStudio.Workload.AzureBuildTools workload.
