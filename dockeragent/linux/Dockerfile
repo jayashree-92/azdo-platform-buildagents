@@ -151,11 +151,10 @@ RUN python3 -m pip install --upgrade awxkit
 RUN python3 -c "import awxkit"
 
 # ---------------------------------------------
-# Install Ansible (Version 7.0.0 or higher)
-# ---------------------------------------------
-RUN pip install --no-cache-dir ansible==8.5.0
+# Ansible install
+#------------------------------------------------
+RUN pip install --no-cache-dir ansible>=2.16.3
 RUN ansible --version
-
 
 # ---------------------------------------------
 # Install ansible-core (Version 2.14.14 or higher)
