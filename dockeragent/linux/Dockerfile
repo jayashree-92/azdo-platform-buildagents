@@ -148,7 +148,7 @@ RUN python3 -c "import ms_active_directory"
 # ---------------------------------------------
 # RUN pip --no-input install awxkit 
 RUN python3 -m pip install --upgrade awxkit
-RUN python3 -c "import awxkit; print(awxkit.__version__)"
+RUN python3 -c "import awxkit"
 
 # ---------------------------------------------
 # Install Ansible (Version 7.0.0 or higher)
