@@ -122,44 +122,48 @@ RUN python3 -c "import certifi; print(certifi.__version__)"
 # ---------------------------------------------
 # Install cryptography (Version 39.0.1 or higher)
 # ---------------------------------------------
-RUN pip install --upgrade cryptography>=42.0.0
-RUN python -c "import cryptography; print(cryptography.__version__)"
+RUN  python3 -m pip install --upgrade cryptography>=42.0.0
+RUN  python3 -c "import cryptography; print(cryptography.__version__)"
 
 
 # ---------------------------------------------
 # Install Ansible (Version 7.0.0 or higher)
 # ---------------------------------------------
-RUN pip install ansible>=8.5.0
-RUN ansible --version
+RUN  python3 -m pip install ansible>=8.5.0
+RUN  python3 -m ansible --version
 
 # ---------------------------------------------
 # Install ansible-core (Version 2.14.14 or higher)
 # ---------------------------------------------
-RUN pip install --upgrade ansible-core>=2.14.14
-RUN ansible --version
+RUN  python3 -m pip install --upgrade ansible-core>=2.14.14
+RUN  python3 -m ansible --version
 
 # ---------------------------------------------
 # Install wheel (Version 0.38.1 or higher)
 # ---------------------------------------------
-RUN pip install --upgrade wheel>=0.38.1
-RUN python -c "import wheel; print(wheel.__version__)"
+RUN  python3 -m pip install --upgrade wheel>=0.38.1
+RUN  python3 -c "import wheel; print(wheel.__version__)"
 
 # ---------------------------------------------
 # Install jinja2 (Version 3.1.3 or higher)
 # ---------------------------------------------
-RUN pip install --upgrade jinja2>=3.1.3
-RUN python -c "import jinja2; print(jinja2.__version__)"
+RUN python3 -m pip install --upgrade jinja2>=3.1.3
+RUN python3 -c "import jinja2; print(jinja2.__version__)"
 
 
 # ---------------------------------------------
 # AWX CLI for Ansible (Latest)
 # ---------------------------------------------
-RUN pip --no-input install awxkit 
+# RUN pip --no-input install awxkit 
+RUN python3 -m pip install awxkit
+RUN python3 -c "import awxkit; print(awxkit.__version__)"
+
 
 # ---------------------------------------------
 # Active Directory Library for Python
 # ---------------------------------------------
-RUN pip --no-input install ms_active_directory
+RUN python3 -m pip install ms_active_directory
+RUN python3 -c "import ms_active_directory; print(ms_active_directory.__version__)"
 
 # ---------------------------------------------
 # Docker Configuration
