@@ -143,7 +143,8 @@ RUN python3 -c "import jinja2; print(jinja2.__version__)"
 # ---------------------------------------------
 # RUN pip --no-input install awxkit 
 RUN python3 -m pip install awxkit
-RUN python3 -c "import awxkit; print(awxkit.__version__)"
+RUN python3 -m pip install --upgrade awxkit
+
 
 # ---------------------------------------------
 # Install Ansible (Version 7.0.0 or higher)
