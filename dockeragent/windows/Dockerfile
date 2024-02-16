@@ -30,7 +30,8 @@ RUN choco install terraform-docs;
 RUN choco install openssl;
 RUN choco install wget;
 RUN choco install dotnet-6.0-sdk;
-RUN choco install dotnetcore-runtime --version 6.0.*; # Added .NET 6.0 Runtime
+RUN choco install dotnetcore-runtime;
+RUN choco upgrade dotnetcore-runtime --version 6.0;
 RUN choco install dotnetcore-sdk;
 RUN choco install azure-cli;
 
