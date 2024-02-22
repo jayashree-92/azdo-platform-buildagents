@@ -21,7 +21,9 @@ RUN choco feature enable --name allowGlobalConfirmation
 # ---------------------------------------------
 RUN choco install curl;
 # Run Chocolatey installation command
-RUN choco install dotnet-sdk --version=6.0;
+#RUN choco source add -n=custom -s=https://chocolatey.org/api/v2/
+#RUN choco install dotnet-sdk --version=6.0.101 --source=custom
+RUN choco install dotnet-6.0-sdk;
 RUN choco install git;
 RUN choco install jdk8;
 RUN choco install nodejs-lts;
