@@ -20,6 +20,9 @@ RUN choco feature enable --name allowGlobalConfirmation
 # Chocolatey Packages
 # ---------------------------------------------
 RUN choco install curl;
+# Run Chocolatey installation command
+RUN powershell -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
+RUN choco install dotnet-sdk --version=6.0;
 RUN choco install git;
 RUN choco install jdk8;
 RUN choco install nodejs-lts;
@@ -31,7 +34,7 @@ RUN choco install openssl;
 RUN choco install wget;
 RUN choco install dotnet-6.0-aspnetruntime;
 RUN choco install dotnetcore-sdk;
-RUN choco install dotnet-sdk --version=6.0
+RUN choco install dotnet-sdk --version=6.0;
 RUN choco install azure-cli;
 
 # Upgrade all Chocolatey packages to their latest versions
