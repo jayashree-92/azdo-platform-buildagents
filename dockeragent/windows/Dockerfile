@@ -31,6 +31,7 @@ RUN choco install openssl;
 RUN choco install wget;
 RUN choco install dotnet-6.0-aspnetruntime;
 RUN choco install dotnetcore-sdk;
+RUN choco install dotnet-sdk --version=6.0
 RUN choco install azure-cli;
 
 # Upgrade all Chocolatey packages to their latest versions
