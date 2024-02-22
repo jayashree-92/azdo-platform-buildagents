@@ -30,6 +30,7 @@ RUN choco install terraform-docs;
 RUN choco install openssl;
 RUN choco install wget;
 RUN choco install dotnet-6.0-sdk;
+RUN dotnet tool install --global dotnet-aspnet-codegenerator
 RUN dotnet new globaljson --sdk-version 6.0.419
 RUN choco install dotnetcore-runtime;
 RUN choco upgrade dotnetcore-runtime --version 6.0;
