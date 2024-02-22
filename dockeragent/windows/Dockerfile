@@ -24,19 +24,19 @@ RUN choco install curl;
 #RUN choco source add -n=custom -s=https://chocolatey.org/api/v2/
 #RUN choco install dotnet-sdk --version=6.0.101 --source=custom
 RUN choco install dotnet-6.0-sdk;
-RUN choco install git;
-RUN choco install jdk8;
-RUN choco install nodejs-lts;
-RUN choco install maven;
-RUN choco install docker;
-RUN choco install terraform --version 1.7.2 
-RUN choco install terraform-docs;
-RUN choco install openssl;
-RUN choco install wget;
-RUN choco install dotnet-6.0-aspnetruntime;
-RUN choco install dotnetcore-sdk;
-#RUN choco install dotnet-sdk --version=6.0;
-RUN choco install azure-cli;
+#RUN choco install git;
+#RUN choco install jdk8;
+#RUN choco install nodejs-lts;
+#RUN choco install maven;
+#RUN choco install docker;
+#RUN choco install terraform --version 1.7.2 
+#RUN choco install terraform-docs;
+#RUN choco install openssl;
+#RUN choco install wget;
+#RUN choco install dotnet-6.0-aspnetruntime;
+#RUN choco install dotnetcore-sdk;
+##RUN choco install dotnet-sdk --version=6.0;
+#RUN choco install azure-cli;
 
 # Upgrade all Chocolatey packages to their latest versions
 RUN choco upgrade all -y
