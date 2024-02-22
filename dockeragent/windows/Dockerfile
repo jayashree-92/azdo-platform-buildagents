@@ -29,7 +29,7 @@ RUN choco install terraform --version 1.7.2
 RUN choco install terraform-docs;
 RUN choco install openssl;
 RUN choco install wget;
-RUN choco install dotnet-runtime-6.0;
+RUN choco install dotnet-6.0-aspnetruntime;
 RUN choco install dotnetcore-sdk;
 RUN choco install azure-cli;
 
