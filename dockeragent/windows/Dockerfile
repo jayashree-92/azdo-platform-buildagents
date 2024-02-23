@@ -24,7 +24,7 @@ RUN choco install curl;
 #RUN choco install dotnet-6.0-sdk;
 # Download .NET SDK
 RUN Invoke-WebRequest -OutFile dotnet-install.ps1 https://dot.net/v1/dotnet-install.ps1
-RUN & ./dotnet-install.ps1 -InstallDir '/programfiles/dotnet' -Version '5.0.402'
+RUN & ./dotnet-install.ps1 -InstallDir '/programfiles/dotnet' -Version '6.0.419'
 # Set environment variables
 ENV DOTNET_CLI_HOME="/programfiles/dotnet"
 ENV PATH="${PATH};/programfiles/dotnet"
@@ -36,10 +36,10 @@ ENV PATH="${PATH};/programfiles/dotnet"
 #RUN choco install terraform --version 1.7.2 
 #RUN choco install terraform-docs;
 #RUN choco install openssl;
-#RUN choco install wget;
+RUN choco install wget;
 #RUN choco install dotnet-6.0-aspnetruntime;
 #RUN choco install dotnetcore-sdk;
-#RUN choco install azure-cli;
+RUN choco install azure-cli;
 
 # Upgrade all Chocolatey packages to their latest versions
 #RUN choco upgrade all -y
