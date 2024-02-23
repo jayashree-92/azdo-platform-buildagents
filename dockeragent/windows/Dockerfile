@@ -42,7 +42,7 @@ ENV PATH="${PATH};/programfiles/dotnet"
 #RUN choco install azure-cli;
 
 # Upgrade all Chocolatey packages to their latest versions
-RUN choco upgrade all -y
+#RUN choco upgrade all -y
 
 # Download the Visual Studio 2019 version 16.11.33 bootstrapper.
 #RUN Invoke-WebRequest "https://aka.ms/vs/16/release/vs_community.exe" -OutFile "$env:TEMP\vs_community.exe" -UseBasicParsing
