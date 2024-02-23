@@ -20,10 +20,14 @@ RUN choco feature enable --name allowGlobalConfirmation
 # Chocolatey Packages
 # ---------------------------------------------
 RUN choco install curl;
-# Run Chocolatey installation command
-#RUN choco source add -n=custom -s=https://chocolatey.org/api/v2/
 #RUN choco install dotnet-sdk --version=6.0.101 --source=custom
-RUN choco install dotnet-6.0-sdk;
+#RUN choco install dotnet-6.0-sdk;
+# Download .NET SDK
+RUN Invoke-WebRequest -OutFile dotnet-install.ps1 https://dot.net/v1/dotnet-install.ps1
+RUN & ./dotnet-install.ps1 -InstallDir '/programfiles/dotnet' -Version '5.0.402'
+# Set environment variables
+ENV DOTNET_CLI_HOME="/programfiles/dotnet"
+ENV PATH="${PATH};/programfiles/dotnet"
 #RUN choco install git;
 #RUN choco install jdk8;
 #RUN choco install nodejs-lts;
@@ -35,7 +39,6 @@ RUN choco install dotnet-6.0-sdk;
 #RUN choco install wget;
 #RUN choco install dotnet-6.0-aspnetruntime;
 #RUN choco install dotnetcore-sdk;
-##RUN choco install dotnet-sdk --version=6.0;
 #RUN choco install azure-cli;
 
 # Upgrade all Chocolatey packages to their latest versions
