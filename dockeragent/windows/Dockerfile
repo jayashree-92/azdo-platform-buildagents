@@ -20,29 +20,23 @@ RUN choco feature enable --name allowGlobalConfirmation
 # Chocolatey Packages
 # ---------------------------------------------
 RUN choco install curl;
-#RUN choco install dotnet-sdk --version=6.0.101 --source=custom
-#RUN choco install dotnet-6.0-sdk;
-# Download .NET SDK
-RUN Invoke-WebRequest -OutFile dotnet-install.ps1 https://dot.net/v1/dotnet-install.ps1
-RUN & ./dotnet-install.ps1 -InstallDir '/programfiles/dotnet' -Version '6.0.419'
-# Set environment variables
-ENV DOTNET_CLI_HOME="/programfiles/dotnet"
-ENV PATH="${PATH};/programfiles/dotnet"
-#RUN choco install git;
-#RUN choco install jdk8;
-#RUN choco install nodejs-lts;
-#RUN choco install maven;
-#RUN choco install docker;
-#RUN choco install terraform --version 1.7.2 
-#RUN choco install terraform-docs;
-#RUN choco install openssl;
+RUN choco install dotnet-6.0-sdk;
+RUN dotnet tool install --global dotnet-aspnet-codegenerator --version 6.0.0
+RUN dotnet new globaljson --sdk-version 6.0.419;
+RUN choco install git;
+RUN choco install jdk8;
+RUN choco install nodejs-lts;
+RUN choco install maven;
+RUN choco install docker;
+RUN choco install terraform --version 1.7.2 
+RUN choco install terraform-docs;
+RUN choco install openssl;
 RUN choco install wget;
 #RUN choco install dotnet-6.0-aspnetruntime;
-#RUN choco install dotnetcore-sdk;
 RUN choco install azure-cli;
 
 # Upgrade all Chocolatey packages to their latest versions
-#RUN choco upgrade all -y
+RUN choco upgrade all -y
 
 # Download the Visual Studio 2019 version 16.11.33 bootstrapper.
 #RUN Invoke-WebRequest "https://aka.ms/vs/16/release/vs_community.exe" -OutFile "$env:TEMP\vs_community.exe" -UseBasicParsing
