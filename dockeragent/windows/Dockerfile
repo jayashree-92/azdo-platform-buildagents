@@ -20,14 +20,18 @@ RUN choco feature enable --name allowGlobalConfirmation
 # Chocolatey Packages
 # ---------------------------------------------
 RUN choco install curl;
+RUN choco upgrade dotnet
 RUN choco install dotnet-6.0-sdk;
-RUN dotnet tool install --global Microsoft.NET.Sdk.Web;
+RUN dotnet add package Microsoft.NET.Sdk.Web --version 6.0.419;
+RUN dotnet --version
+#RUN dotnet tool install --global Microsoft.NET.Sdk.Web;
 RUN dotnet tool install --global dotnet-aspnet-codegenerator --version 6.0.0
 RUN dotnet new globaljson --sdk-version 6.0.419;
 RUN dotnet --list-sdks
 RUN choco install nuget.commandline;
-RUN nuget sources list
-RUN nuget locals all -clear
+RUN nuget update -self
+#RUN nuget sources list
+#RUN nuget locals all -clear
 #RUN choco install git;
 #RUN choco install jdk8;
 #RUN choco install nodejs-lts;
