@@ -28,14 +28,14 @@ RUN dotnet --list-sdks
 RUN choco install nuget.commandline;
 RUN nuget sources list
 RUN nuget locals all -clear
-RUN choco install git;
-RUN choco install jdk8;
-RUN choco install nodejs-lts;
-RUN choco install maven;
+#RUN choco install git;
+#RUN choco install jdk8;
+#RUN choco install nodejs-lts;
+#RUN choco install maven;
 RUN choco install docker;
-RUN choco install terraform --version 1.7.2 
-RUN choco install terraform-docs;
-RUN choco install openssl;
+#RUN choco install terraform --version 1.7.2 
+#RUN choco install terraform-docs;
+#RUN choco install openssl;
 RUN choco install wget;
 #RUN choco install dotnet-6.0-aspnetruntime;
 RUN choco install azure-cli;
