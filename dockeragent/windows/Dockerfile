@@ -22,7 +22,7 @@ RUN choco feature enable --name allowGlobalConfirmation
 RUN choco install curl;
 RUN choco upgrade dotnet
 RUN choco install dotnet-6.0-sdk;
-RUN dotnet add package Microsoft.NET.Sdk.Web --version 6.0.419;
+#RUN dotnet add package Microsoft.NET.Sdk.Web --version 6.0.419;
 RUN dotnet --version
 #RUN dotnet tool install --global Microsoft.NET.Sdk.Web;
 RUN dotnet tool install --global dotnet-aspnet-codegenerator --version 6.0.0
@@ -78,6 +78,13 @@ RUN `
     `
     # Cleanup
     && del /q vs_buildtools.exe
+
+    # Copy the contents of your project to the image
+COPY . .
+
+# Build the project (this will automatically download and install the specified SDK version)
+RUN dotnet build -c Release
+
 
 WORKDIR /azp
 
