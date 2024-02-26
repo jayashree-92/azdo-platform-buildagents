@@ -30,7 +30,7 @@ RUN dotnet new globaljson --sdk-version 6.0.419;
 RUN dotnet --list-sdks
 RUN choco install nuget.commandline;
 RUN nuget update -self
-RUN nuget restore "C:\path\to\your\solution.sln"
+#RUN nuget restore "C:\path\to\your\solution.sln"
 #RUN nuget sources list
 #RUN nuget locals all -clear
 #RUN choco install git;
