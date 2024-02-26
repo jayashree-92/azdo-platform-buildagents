@@ -82,9 +82,11 @@ RUN `
     # Copy the contents of your project to the image
 COPY . .
 
+# Set the working directory to the project directory
+WORKDIR C:/path/to/your/project/FileMgmtSystem
+
 # Build the project (this will automatically download and install the specified SDK version)
 RUN dotnet build -c Release
-
 
 WORKDIR /azp
 
