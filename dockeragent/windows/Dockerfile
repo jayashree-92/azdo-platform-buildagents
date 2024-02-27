@@ -22,27 +22,26 @@ RUN choco feature enable --name allowGlobalConfirmation
 RUN choco install curl;
 RUN choco upgrade dotnet
 RUN choco install dotnet-6.0-sdk;
-#RUN dotnet add package Microsoft.NET.Sdk.Web --version 6.0.419;
+RUN choco install dotnet-6.0-aspnetruntime;
 RUN dotnet --version
-#RUN dotnet tool install --global Microsoft.NET.Sdk.Web;
+RUN dotnet tool install --global Microsoft.NET.Sdk.Web;
 RUN dotnet tool install --global dotnet-aspnet-codegenerator --version 6.0.0
 RUN dotnet new globaljson --sdk-version 6.0.419;
 RUN dotnet --list-sdks
 RUN choco install nuget.commandline;
 RUN nuget update -self
 #RUN nuget restore "C:\path\to\your\solution.sln"
-#RUN nuget sources list
-#RUN nuget locals all -clear
-#RUN choco install git;
-#RUN choco install jdk8;
-#RUN choco install nodejs-lts;
-#RUN choco install maven;
+RUN nuget sources list
+RUN nuget locals all -clear
+RUN choco install git;
+RUN choco install jdk8;
+RUN choco install nodejs-lts;
+RUN choco install maven;
 RUN choco install docker;
-#RUN choco install terraform --version 1.7.2 
-#RUN choco install terraform-docs;
-#RUN choco install openssl;
+RUN choco install terraform --version 1.7.2 
+RUN choco install terraform-docs;
+RUN choco install openssl;
 RUN choco install wget;
-#RUN choco install dotnet-6.0-aspnetruntime;
 RUN choco install azure-cli;
 
 # Upgrade all Chocolatey packages to their latest versions
@@ -80,13 +79,13 @@ RUN `
     && del /q vs_buildtools.exe
 
     # Copy the contents of your project to the image
-COPY . .
+#COPY . .
 
 # Set the working directory to the project directory
-WORKDIR C:/path/to/your/project/FileMgmtSystem
+#WORKDIR C:/path/to/your/project/FileMgmtSystem
 
 # Build the project (this will automatically download and install the specified SDK version)
-RUN dotnet build -c Release
+#RUN dotnet build -c Release
 
 WORKDIR /azp
 
