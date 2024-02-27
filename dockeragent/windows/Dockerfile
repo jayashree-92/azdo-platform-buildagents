@@ -31,16 +31,16 @@ RUN dotnet --list-sdks
 RUN choco install nuget.commandline;
 RUN nuget update -self
 #RUN nuget restore "C:\path\to\your\solution.sln"
-RUN nuget sources list
+#RUN nuget sources list
 RUN nuget locals all -clear
-RUN choco install git;
-RUN choco install jdk8;
+#RUN choco install git;
+#RUN choco install jdk8;
 RUN choco install nodejs-lts;
-RUN choco install maven;
+#RUN choco install maven;
 RUN choco install docker;
-RUN choco install terraform --version 1.7.2 
-RUN choco install terraform-docs;
-RUN choco install openssl;
+#RUN choco install terraform --version 1.7.2 
+#RUN choco install terraform-docs;
+#RUN choco install openssl;
 RUN choco install wget;
 RUN choco install azure-cli;
 
@@ -57,6 +57,8 @@ RUN Invoke-WebRequest "https://aka.ms/vs/17/release/vs_community.exe" -OutFile "
 # Install Visual Studio 2022 with the Microsoft.VisualStudio.Workload.AzureBuildTools workload.
 RUN & "$env:TEMP\vs_community.exe" --add Microsoft.VisualStudio.Workload.AzureBuildTools --includeRecommended --quiet --wait --norestart --noUpdateInstaller | Out-Default
 RUN Add-WindowsCapability -online -Name "Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0"
+
+RUN vs_buildtools.exe --add Microsoft.VisualStudio.Workload.NetCoreBuildTools --quiet --wait --norestart --nocache || IF "%ERRORLEVEL%"=="3010" EXIT 0
 
 SHELL ["cmd", "/S", "/C"]
 RUN rmdir /S /Q C:\chococache
