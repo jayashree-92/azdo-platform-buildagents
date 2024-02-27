@@ -58,7 +58,7 @@ RUN Invoke-WebRequest "https://aka.ms/vs/17/release/vs_community.exe" -OutFile "
 RUN & "$env:TEMP\vs_community.exe" --add Microsoft.VisualStudio.Workload.AzureBuildTools --includeRecommended --quiet --wait --norestart --noUpdateInstaller | Out-Default
 RUN Add-WindowsCapability -online -Name "Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0"
 
-RUN vs_buildtools.exe --add Microsoft.VisualStudio.Workload.NetCoreBuildTools --quiet --wait --norestart --nocache || IF "%ERRORLEVEL%"=="3010" EXIT 0
+#RUN vs_buildtools.exe --add Microsoft.VisualStudio.Workload.NetCoreBuildTools --quiet --wait --norestart --nocache || IF "%ERRORLEVEL%"=="3010" EXIT 0
 
 SHELL ["cmd", "/S", "/C"]
 RUN rmdir /S /Q C:\chococache
