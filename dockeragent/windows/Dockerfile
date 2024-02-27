@@ -24,7 +24,7 @@ RUN choco upgrade dotnet
 RUN choco install dotnet-6.0-sdk;
 RUN choco install dotnet-6.0-aspnetruntime;
 RUN dotnet --version
-RUN dotnet tool install --global Microsoft.NET.Sdk.Web;
+#RUN dotnet tool install --global Microsoft.NET.Sdk.Web;
 RUN dotnet tool install --global dotnet-aspnet-codegenerator --version 6.0.0
 RUN dotnet new globaljson --sdk-version 6.0.419;
 RUN dotnet --list-sdks
