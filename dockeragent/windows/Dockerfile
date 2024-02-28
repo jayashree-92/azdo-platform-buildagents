@@ -31,16 +31,16 @@ RUN dotnet --list-sdks
 RUN choco install nuget.commandline;
 RUN nuget update -self
 #RUN nuget restore "C:\path\to\your\solution.sln"
-#RUN nuget sources list
+RUN nuget sources list
 RUN nuget locals all -clear
-#RUN choco install git;
-#RUN choco install jdk8;
+RUN choco install git;
+RUN choco install jdk8;
 RUN choco install nodejs-lts;
-#RUN choco install maven;
+RUN choco install maven;
 RUN choco install docker;
-#RUN choco install terraform --version 1.7.2 
-#RUN choco install terraform-docs;
-#RUN choco install openssl;
+RUN choco install terraform --version 1.7.2 
+RUN choco install terraform-docs;
+RUN choco install openssl;
 RUN choco install wget;
 RUN choco install azure-cli;
 
@@ -81,11 +81,11 @@ RUN `
     && del /q vs_buildtools.exe
 
     # Copy the contents of your project to the image
-COPY . .
+#COPY . .
 
 # Set the working directory to the project directory
-WORKDIR C:/azp/agent/_work/2/s/
-RUN dotnet build FileMgmtSystem/FileMgmtSystem.csproj -c Release
+#WORKDIR C:/azp/agent/_work/2/s/
+#RUN dotnet build FileMgmtSystem/FileMgmtSystem.csproj -c Release
 
 WORKDIR /azp
 
