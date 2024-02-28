@@ -21,7 +21,7 @@ RUN choco feature enable --name allowGlobalConfirmation
 # ---------------------------------------------
 RUN choco install curl;
 RUN choco upgrade dotnet
-RUN choco install dotnet-5.0-sdk;
+#RUN choco install dotnet-5.0-sdk;
 RUN choco install dotnet-6.0-sdk;
 RUN choco install dotnet-6.0-aspnetruntime;
 RUN dotnet --version
@@ -47,18 +47,11 @@ RUN choco install azure-cli;
 # Upgrade all Chocolatey packages to their latest versions
 RUN choco upgrade all -y
 
-# Download the Visual Studio 2019 version 16.11.33 bootstrapper.
-#RUN Invoke-WebRequest "https://aka.ms/vs/16/release/vs_community.exe" -OutFile "$env:TEMP\vs_community.exe" -UseBasicParsing
-# Install Visual Studio 2019 with the Microsoft.VisualStudio.Workload.AzureBuildTools workload.
-#RUN & "$env:TEMP\vs_community.exe" --add Microsoft.VisualStudio.Workload.AzureBuildTools --includeRecommended --quiet --wait --norestart --noUpdateInstaller | Out-Default
-
 # Download the Visual Studio 2022 bootstrapper.
 RUN Invoke-WebRequest "https://aka.ms/vs/17/release/vs_community.exe" -OutFile "$env:TEMP\vs_community.exe" -UseBasicParsing
 # Install Visual Studio 2022 with the Microsoft.VisualStudio.Workload.AzureBuildTools workload.
 RUN & "$env:TEMP\vs_community.exe" --add Microsoft.VisualStudio.Workload.AzureBuildTools --includeRecommended --quiet --wait --norestart --noUpdateInstaller | Out-Default
 RUN Add-WindowsCapability -online -Name "Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0"
-
-#RUN vs_buildtools.exe --add Microsoft.VisualStudio.Workload.NetCoreBuildTools --quiet --wait --norestart --nocache || IF "%ERRORLEVEL%"=="3010" EXIT 0
 
 SHELL ["cmd", "/S", "/C"]
 RUN rmdir /S /Q C:\chococache
@@ -80,12 +73,6 @@ RUN `
     # Cleanup
     && del /q vs_buildtools.exe
 
-    # Copy the contents of your project to the image
-#COPY . .
-
-# Set the working directory to the project directory
-#WORKDIR C:/azp/agent/_work/2/s/
-#RUN dotnet build FileMgmtSystem/FileMgmtSystem.csproj -c Release
 
 WORKDIR /azp
 
