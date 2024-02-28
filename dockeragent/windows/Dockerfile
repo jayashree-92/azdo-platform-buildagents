@@ -84,11 +84,8 @@ RUN `
 COPY . .
 
 # Set the working directory to the project directory
- WORKDIR C:/azp/agent/_work/2/s/
-
-
-# Build the project (this will automatically download and install the specified SDK version)
-RUN dotnet build -c Release
+WORKDIR C:/azp/agent/_work/2/s/
+RUN dotnet build FileMgmtSystem/FileMgmtSystem.csproj -c Release
 
 WORKDIR /azp
 
