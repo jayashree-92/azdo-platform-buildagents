@@ -21,10 +21,10 @@ RUN choco feature enable --name allowGlobalConfirmation
 # ---------------------------------------------
 RUN choco install curl;
 RUN choco upgrade dotnet
+RUN choco install dotnet-5.0-sdk;
 RUN choco install dotnet-6.0-sdk;
 RUN choco install dotnet-6.0-aspnetruntime;
 RUN dotnet --version
-#RUN dotnet tool install --global Microsoft.NET.Sdk.Web;
 RUN dotnet tool install --global dotnet-aspnet-codegenerator --version 6.0.0
 RUN dotnet new globaljson --sdk-version 6.0.419;
 RUN dotnet --list-sdks
@@ -81,13 +81,14 @@ RUN `
     && del /q vs_buildtools.exe
 
     # Copy the contents of your project to the image
-#COPY . .
+COPY . .
 
 # Set the working directory to the project directory
-#WORKDIR C:/path/to/your/project/FileMgmtSystem
+ WORKDIR C:/azp/agent/_work/2/s/
+
 
 # Build the project (this will automatically download and install the specified SDK version)
-#RUN dotnet build -c Release
+RUN dotnet build -c Release
 
 WORKDIR /azp
 
