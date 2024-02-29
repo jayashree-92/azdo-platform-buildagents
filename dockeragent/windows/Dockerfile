@@ -21,7 +21,7 @@ RUN choco feature enable --name allowGlobalConfirmation
 # ---------------------------------------------
 RUN choco install curl;
 RUN choco install dotnet-6.0-sdk;
-RUN choco install dotnet-5.0-sdk
+#RUN choco install dotnet-5.0-sdk
 RUN choco install dotnet-6.0-aspnetruntime;
 RUN dotnet --version;
 RUN choco upgrade dotnet;
