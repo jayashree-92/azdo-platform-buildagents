@@ -21,7 +21,7 @@ RUN choco feature enable --name allowGlobalConfirmation
 # ---------------------------------------------
 RUN choco install curl;
 RUN choco install dotnet-6.0-sdk;
-#RUN choco install dotnet-5.0-sdk
+RUN choco install dotnet-5.0-sdk
 RUN choco install dotnet-6.0-aspnetruntime;
 RUN dotnet --version;
 RUN choco upgrade dotnet;
@@ -30,7 +30,6 @@ RUN dotnet new globaljson --sdk-version 6.0.419;
 RUN dotnet --list-sdks
 RUN choco install nuget.commandline;
 RUN nuget update -self
-#RUN nuget restore "C:\path\to\your\solution.sln"
 RUN nuget sources list
 RUN nuget locals all -clear
 RUN choco install git;
@@ -43,6 +42,7 @@ RUN choco install terraform-docs;
 RUN choco install openssl;
 RUN choco install wget;
 RUN choco install azure-cli;
+RUN choco install nant -version 0.92;
 
 # Upgrade all Chocolatey packages to their latest versions
 RUN choco upgrade all -y
