@@ -43,6 +43,7 @@ RUN choco install openssl;
 RUN choco install wget;
 RUN choco install azure-cli;
 RUN choco install nant -version 0.92;
+RUN choco install netfx-4.8-devpack -y
 
 # Upgrade all Chocolatey packages to their latest versions
 RUN choco upgrade all -y
