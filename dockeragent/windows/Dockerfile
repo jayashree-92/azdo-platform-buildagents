@@ -20,6 +20,18 @@ RUN choco feature enable --name allowGlobalConfirmation
 # Chocolatey Packages
 # ---------------------------------------------
 RUN choco install curl;
+RUN choco install dotnet-6.0-sdk;
+RUN choco install dotnet-5.0-sdk
+RUN choco install dotnet-6.0-aspnetruntime;
+RUN dotnet --version;
+RUN choco upgrade dotnet;
+RUN dotnet tool install --global dotnet-aspnet-codegenerator --version 6.0.0
+RUN dotnet new globaljson --sdk-version 6.0.419;
+RUN dotnet --list-sdks
+RUN choco install nuget.commandline;
+RUN nuget update -self
+RUN nuget sources list
+RUN nuget locals all -clear
 RUN choco install git;
 RUN choco install jdk8;
 RUN choco install nodejs-lts;
@@ -29,20 +41,17 @@ RUN choco install terraform --version 1.7.2
 RUN choco install terraform-docs;
 RUN choco install openssl;
 RUN choco install wget;
-RUN choco install dotnet-6.0-sdk;
-RUN choco install dotnetcore-runtime;
-RUN choco upgrade dotnetcore-runtime --version 6.0;
-RUN choco install dotnetcore-sdk;
 RUN choco install azure-cli;
+RUN choco install nant -version 0.92;
+RUN choco install netfx-4.8-devpack -y
 
 # Upgrade all Chocolatey packages to their latest versions
 RUN choco upgrade all -y
 
-# Download the Visual Studio 2019 version 16.11.33 bootstrapper.
-RUN Invoke-WebRequest "https://aka.ms/vs/16/release/vs_community.exe" -OutFile "$env:TEMP\vs_community.exe" -UseBasicParsing
-# Install Visual Studio 2019 with the Microsoft.VisualStudio.Workload.AzureBuildTools workload.
+# Download the Visual Studio 2022 bootstrapper.
+RUN Invoke-WebRequest "https://aka.ms/vs/17/release/vs_community.exe" -OutFile "$env:TEMP\vs_community.exe" -UseBasicParsing
+# Install Visual Studio 2022 with the Microsoft.VisualStudio.Workload.AzureBuildTools workload.
 RUN & "$env:TEMP\vs_community.exe" --add Microsoft.VisualStudio.Workload.AzureBuildTools --includeRecommended --quiet --wait --norestart --noUpdateInstaller | Out-Default
-
 RUN Add-WindowsCapability -online -Name "Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0"
 
 SHELL ["cmd", "/S", "/C"]
@@ -64,6 +73,7 @@ RUN `
     `
     # Cleanup
     && del /q vs_buildtools.exe
+
 
 WORKDIR /azp
 
