@@ -35,7 +35,7 @@ RUN nuget locals all -clear
 RUN choco install git;
 RUN choco install jdk8;
 RUN choco install nodejs-lts;
-RUN choco install npm
+#RUN choco install npm
 RUN choco install maven;
 RUN choco install docker;
 RUN choco install terraform --version 1.7.2 
