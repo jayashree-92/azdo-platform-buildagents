@@ -30,7 +30,7 @@ RUN dotnet --list-sdks
 #RUN choco install dotnet-6.0-aspnetruntime;
 RUN choco upgrade dotnet;
 #RUN dotnet tool install --global dotnet-aspnet-codegenerator --version 6.0.0
-RUN dotnet new globaljson --sdk-version 6.0.419;
+#RUN dotnet new globaljson --sdk-version 6.0.419;
 RUN choco install nuget.commandline;
 RUN nuget update -self
 RUN nuget sources list
