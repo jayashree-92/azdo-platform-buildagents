@@ -23,11 +23,11 @@ RUN choco install curl;
 RUN choco install dotnet-7.0-sdk;
 RUN dotnet --version;
 RUN dotnet tool install --global dotnet-aspnet-codegenerator --version 7.0.0
-RUN dotnet new globaljson --sdk-version 7.0.0;
+RUN dotnet new globaljson --sdk-version 7.0.407;
 RUN dotnet --list-sdks
 
 # Set environment variable for .NET 7.0 SDK
-ENV DOTNET_PATH="C:\Program Files\dotnet\sdk\7.0.0"
+ENV DOTNET_PATH="C:\Program Files\dotnet\sdk\7.0.407"
 #RUN choco install dotnet-6.0-sdk;
 #RUN choco install dotnet-5.0-sdk
 #RUN choco install dotnet-6.0-aspnetruntime;
