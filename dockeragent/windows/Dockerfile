@@ -38,6 +38,7 @@ RUN choco install nuget.commandline;
 RUN nuget update -self
 RUN nuget sources list
 RUN nuget locals all -clear
+RUN choco update all
 RUN choco install git;
 RUN choco install jdk8;
 RUN choco install nodejs-lts;
