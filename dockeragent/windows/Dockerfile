@@ -20,6 +20,8 @@ RUN choco feature enable --name allowGlobalConfirmation
 # Chocolatey Packages
 # ---------------------------------------------
 RUN choco install curl;
+RUN choco upgrade chocolatey
+RUN choco clean all --yes
 RUN choco install dotnet-7.0-sdk;
 RUN dotnet --version;
 RUN dotnet tool install --global dotnet-aspnet-codegenerator --version 7.0.0
@@ -38,7 +40,7 @@ RUN choco install nuget.commandline;
 RUN nuget update -self
 RUN nuget sources list
 RUN nuget locals all -clear
-RUN choco install git;
+RUN choco install git --yes;
 RUN choco install jdk8;
 RUN choco install nodejs-lts;
 #RUN choco install npm
