@@ -38,7 +38,6 @@ RUN choco install nuget.commandline;
 RUN nuget update -self
 RUN nuget sources list
 RUN nuget locals all -clear
-RUN choco update all
 RUN choco install git;
 RUN choco install jdk8;
 RUN choco install nodejs-lts;
@@ -55,6 +54,15 @@ RUN choco install gradle
 
 # Upgrade all Chocolatey packages to their latest versions
 RUN choco upgrade all -y
+
+# Download and install Android SDK
+ENV ANDROID_HOME="C:\Android"
+ENV PATH="%PATH%;%ANDROID_HOME%\tools;%ANDROID_HOME%\tools\bin;%ANDROID_HOME%\platform-tools"
+RUN curl -o C:\android_sdk.zip https://dl.google.com/android/repository/commandlinetools-win-7302050_latest.zip; `
+    Expand-Archive -Path C:\android_sdk.zip -DestinationPath C:\Android; `
+    Remove-Item C:\android_sdk.zip; `
+    Set-Content -Path $env:ANDROID_HOME\licenses\android-sdk-license -Value "8933bad161af4178b1185d1a37fbf41ea5269c55"; `
+    Set-Content -Path $env:ANDROID_HOME\licenses\android-sdk-preview-license -Value "84831b9409646a918e30573bab4c9c91346d8abd"
 
 # Download the Visual Studio 2022 bootstrapper.
 RUN Invoke-WebRequest "https://aka.ms/vs/17/release/vs_community.exe" -OutFile "$env:TEMP\vs_community.exe" -UseBasicParsing
