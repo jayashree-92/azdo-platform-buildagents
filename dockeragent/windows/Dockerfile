@@ -38,7 +38,7 @@ RUN choco install nuget.commandline;
 RUN nuget update -self
 RUN nuget sources list
 RUN nuget locals all -clear
-RUN choco install git --version 2.44.0 -y
+RUN choco install git --version 2.44.0
 RUN choco install jdk8;
 RUN choco install nodejs-lts;
 #RUN choco install npm
