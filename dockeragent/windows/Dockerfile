@@ -38,18 +38,18 @@ RUN choco install nuget.commandline;
 RUN nuget update -self
 RUN nuget sources list
 RUN nuget locals all -clear
-#RUN choco install git;
-#RUN choco install jdk8;
-#RUN choco install nodejs-lts;
-#RUN choco install maven;
-#RUN choco install docker;
-#RUN choco install terraform --version 1.7.2 
-#RUN choco install terraform-docs;
-#RUN choco install openssl;
-#RUN choco install wget;
-#RUN choco install azure-cli;
-#RUN choco install netfx-4.8-devpack -y
-#RUN choco install gradle
+RUN choco install git;
+RUN choco install jdk8;
+RUN choco install nodejs-lts;
+RUN choco install maven;
+RUN choco install docker;
+RUN choco install terraform --version 1.7.2 
+RUN choco install terraform-docs;
+RUN choco install openssl;
+RUN choco install wget;
+RUN choco install azure-cli;
+RUN choco install netfx-4.8-devpack -y
+RUN choco install gradle
 
 # Upgrade all Chocolatey packages to their latest versions
 RUN choco upgrade all -y
