@@ -24,32 +24,31 @@ RUN choco install dotnet-7.0-sdk;
 RUN dotnet --version;
 RUN dotnet tool install --global dotnet-aspnet-codegenerator --version 7.0.0
 RUN dotnet new globaljson --sdk-version 7.0.407;
-# Set environment variable for .NET 7.0 SDK
 ENV DOTNET_PATH="C:\Program Files\dotnet\sdk\7.0.407"
 RUN choco install dotnet-6.0-sdk;
 #RUN choco install dotnet-5.0-sdk
 #RUN choco install dotnet-6.0-aspnetruntime;
-RUN choco upgrade dotnet;
+#RUN choco upgrade dotnet;
 #RUN dotnet tool install --global dotnet-aspnet-codegenerator --version 6.0.0
-RUN dotnet new globaljson --sdk-version 6.0.420;
-ENV DOTNET_PATH="C:\Program Files\dotnet\sdk\6.0.420"
+#RUN dotnet new globaljson --sdk-version 6.0.420;
+ENV DOTNET_PATH="C:\Program Files\dotnet\sdk\6.0.420
 RUN dotnet --list-sdks
 RUN choco install nuget.commandline;
 RUN nuget update -self
 RUN nuget sources list
 RUN nuget locals all -clear
-RUN choco install git;
-RUN choco install jdk8;
-RUN choco install nodejs-lts;
-RUN choco install maven;
-RUN choco install docker;
-RUN choco install terraform --version 1.7.2 
-RUN choco install terraform-docs;
-RUN choco install openssl;
-RUN choco install wget;
-RUN choco install azure-cli;
-RUN choco install netfx-4.8-devpack -y
-RUN choco install gradle
+#RUN choco install git;
+#RUN choco install jdk8;
+#RUN choco install nodejs-lts;
+#RUN choco install maven;
+#RUN choco install docker;
+#RUN choco install terraform --version 1.7.2 
+#RUN choco install terraform-docs;
+#RUN choco install openssl;
+#RUN choco install wget;
+#RUN choco install azure-cli;
+#RUN choco install netfx-4.8-devpack -y
+#RUN choco install gradle
 
 # Upgrade all Chocolatey packages to their latest versions
 RUN choco upgrade all -y
