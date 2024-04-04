@@ -32,7 +32,7 @@ RUN dotnet --list-sdks
 #RUN choco upgrade dotnet;
 #RUN dotnet tool install --global dotnet-aspnet-codegenerator --version 6.0.0
 RUN dotnet new globaljson --sdk-version 6.0.420 --force;
-ENV DOTNET_PATH="C:\Program Files\dotnet\sdk\6.0.420
+ENV DOTNET_PATH="C:\Program Files\dotnet\sdk\6.0.420"
 RUN choco install nuget.commandline;
 RUN nuget update -self
 RUN nuget sources list
