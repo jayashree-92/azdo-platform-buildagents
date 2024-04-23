@@ -7,6 +7,11 @@ global_settings = {
 
 resource_groups = {}
 
-container_registries = {}
+container_registries = {
+    ado = {
+    purpose            = "ado"
+    resource_group_key = "ado"
+  }
+}
 
 
