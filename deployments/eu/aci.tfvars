@@ -8,9 +8,9 @@ function_name = "dvp"
 purpose_name  = "ado"
 
 virtual_network = {
-  name           = "vnet-dvp-prod-eu-ox07"
-  resource_group = "rg-dvp-prod-eu-vnet-4dg5"
-  subnet         = "snet-dvp-prod-eu-aci-u10u"
+  name           = "vnet-dvp-dr-eu-4m3e"
+  resource_group = "rg-dvp-dr-eu-vnet-e82h"
+  subnet         = "snet-dvp-dr-eu-aci-32gh"
 }
 
 linux_container_config = {
