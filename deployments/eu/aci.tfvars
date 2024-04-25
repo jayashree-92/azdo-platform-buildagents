@@ -18,7 +18,7 @@ linux_container_config = {
     ip_address_type = "Private"
     dns_config = {
       search_domains = ["innocap.com"]
-      nameservers    = ["10.90.0.132"]
+      nameservers    = ["10.60.0.132"]
     }
     containers = {
       default = {
