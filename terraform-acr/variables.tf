@@ -12,7 +12,3 @@ variable "tags" {
   default = {}
 }
 
-variable "subscription_id" {
-  description = "Target Azure Subscription"
-  type        = string
-}
