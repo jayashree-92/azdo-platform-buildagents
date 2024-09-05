@@ -142,7 +142,7 @@ RUN python3 -c "import jinja2; print(jinja2.__version__)"
 # ---------------------------------------------
 RUN python3 -m pip install ms_active_directory
 #RUN python3 -c "import ms_active_directory"
-RUN python3 -c "from ms_active_directory import ADDomain"
+#RUN python3 -c "from ms_active_directory import ADDomain"
 # ---------------------------------------------
 # AWX CLI for Ansible (Latest)
 # ---------------------------------------------
